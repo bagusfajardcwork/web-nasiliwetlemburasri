@@ -1,0 +1,21 @@
+info:
+  name: users/:id (delete)
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{base_url}}/users/2"
+  headers:
+    - name: Authorization
+      value: Bearer {{auth_token}}
+  body:
+    type: json
+    data: "{}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

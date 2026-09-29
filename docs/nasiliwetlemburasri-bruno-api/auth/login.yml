@@ -1,0 +1,36 @@
+info:
+  name: login
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "administrator@nasiwiletlemburasri.com",
+        "password": "Admin123456!"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Extract token dari response
+        const token = res.body.data.accessToken
+
+        // Save ke environment
+        bru.setEnvVar('auth_token', token)
+        // bru.setGlobalEnvVar("auth_token", token, { persist: true })
+
+        // console.log('Token di save ke environment auth_token:', token)
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
