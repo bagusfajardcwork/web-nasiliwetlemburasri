@@ -14,7 +14,7 @@ http:
     data: |-
       {
         "name": "Staff Updated",
-        "email": "staff.updated@nasiwiletlemburasri.com",
+        "email": "staff.updated@nasiliwetlemburasri.com",
         "password": "NewPassword123!", // optional
         "isActive": true,
         "roleIds": [3]
