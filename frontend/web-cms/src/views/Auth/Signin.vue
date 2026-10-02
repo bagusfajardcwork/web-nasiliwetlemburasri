@@ -274,23 +274,32 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import CommonGridShape from '@/components/common/CommonGridShape.vue'
-import FullScreenLayout from '@/components/layout/FullScreenLayout.vue'
+import CommonGridShape from '../../components/common/CommonGridShape.vue'
+import FullScreenLayout from '../../components/layout/FullScreenLayout.vue'
+import { useAuthStore } from '../../stores/auth.store'
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
 const keepLoggedIn = ref(false)
+const authStore = useAuthStore()
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
 }
 
-const handleSubmit = () => {
-  // Handle form submission
-  console.log('Form submitted', {
-    email: email.value,
-    password: password.value,
-    keepLoggedIn: keepLoggedIn.value,
-  })
+const handleSubmit = async () => {
+  try {
+    await authStore.login({
+      email: email.value,
+      password: password.value,
+    })
+
+    console.log('Login berhasil')
+    console.log('User:', authStore.user)
+    console.log('Roles:', authStore.roles)
+    console.log('Permissions:', authStore.permissions)
+  } catch (error) {
+    console.error('Login gagal:', error)
+  }
 }
 </script>

@@ -7,11 +7,25 @@ import { testAuthRoute } from './routes/test-auth.route.js';
 import { usersRoute } from './modules/users/users.route.js';
 import { rolesRoute } from './modules/roles/roles.route.js';
 import { permissionsRoute } from './modules/permissions/permissions.route.js';
+import cors from '@fastify/cors'
 
 export function buildApp() {
   const app = Fastify({
     logger: true,
   });
+
+  // mengizinkan semua alamat agar tidak cors
+  // app.register(cors, {
+  //   origin: true,
+  // })
+
+  app.register(cors, {
+    origin: [
+      'http://localhost:5174',
+      'http://127.0.0.1:5174',
+    ],
+    credentials: true,
+  })
 
   app.register(jwtPlugin);
 
