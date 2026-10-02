@@ -10,7 +10,7 @@ import {
   permissions,
   rolePermissions,
   userRoles,
-} from './schema/index.js';
+} from './schema';
 
 const roleData = [
   {
@@ -64,7 +64,7 @@ const permissionData = [
 
   {
     name: 'permissions.read',
-    description: 'Melihat data permission',
+    description: 'Melihat data permissions',
   },
 ];
 

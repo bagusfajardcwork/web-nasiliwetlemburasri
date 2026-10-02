@@ -1,11 +1,11 @@
 info:
-  name: users/:id
+  name: permissions by id
   type: http
   seq: 2
 
 http:
   method: GET
-  url: "{{base_url}}/users/2"
+  url: "{{base_url}}/permissions/1"
   headers:
     - name: Authorization
       value: Bearer {{auth_token}}

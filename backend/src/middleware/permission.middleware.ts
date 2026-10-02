@@ -43,7 +43,7 @@ export function authorize(
       return reply.status(403).send({
         success: false,
         message:
-          'Anda tidak memiliki permission',
+          'Anda tidak memiliki permissions',
       });
     }
   };

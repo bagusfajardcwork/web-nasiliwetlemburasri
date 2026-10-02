@@ -30,7 +30,7 @@ export async function testAuthRoute(
   );
 
   /**
-   * Test permission users.create
+   * Test permissions users.create
    */
   app.get(
     '/test-users-create',
@@ -44,13 +44,13 @@ export async function testAuthRoute(
       return {
         success: true,
         message:
-          'Anda memiliki permission users.create',
+          'Anda memiliki permissions users.create',
       };
     },
   );
 
   /**
-   * Test permission users.delete
+   * Test permissions users.delete
    */
   app.get(
     '/test-users-delete',
@@ -64,7 +64,7 @@ export async function testAuthRoute(
       return {
         success: true,
         message:
-          'Anda memiliki permission users.delete',
+          'Anda memiliki permissions users.delete',
       };
     },
   );

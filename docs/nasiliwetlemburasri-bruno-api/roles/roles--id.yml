@@ -1,0 +1,28 @@
+info:
+  name: roles/:id
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{base_url}}/roles/4"
+  headers:
+    - name: Authorization
+      value: Bearer {{auth_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Staff Updated",
+        "email": "staff.updated@nasiliwetlemburasri.com",
+        "password": "NewPassword123!", // optional
+        "isActive": true,
+        "roleIds": [3]
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -7,6 +7,7 @@ import {
   createUserSchema,
   updateUserSchema,
   userIdSchema,
+  usersQuerySchema
 } from './users.schema.js';
 
 import {
@@ -21,12 +22,31 @@ export async function getUsersController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const users = await getUsers();
+  const parsed =
+    usersQuerySchema.safeParse(
+      request.query,
+    );
+
+  if (!parsed.success) {
+    return reply.status(422).send({
+      success: false,
+      message: 'Query tidak valid',
+      errors:
+      parsed.error.flatten()
+        .fieldErrors,
+    });
+  }
+
+  const result = await getUsers(
+    parsed.data,
+  );
 
   return reply.send({
     success: true,
-    message: 'Data user berhasil ditemukan',
-    data: users,
+    message:
+      'Data user berhasil ditemukan',
+    data: result.data,
+    pagination: result.pagination,
   });
 }
 
