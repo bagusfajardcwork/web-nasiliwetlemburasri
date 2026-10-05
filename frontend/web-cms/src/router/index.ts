@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '../stores/auth.store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,6 +7,59 @@ const router = createRouter({
     return savedPosition || { left: 0, top: 0 }
   },
   routes: [
+    // Halaman Error
+    {
+      path: '/error-403',
+      name: '403 Error',
+      component: () => import('../views/Errors/FourZeroThree.vue'),
+      meta: {
+        title: '403: Akses Ditolak',
+      },
+    },
+    {
+      path: '/error-404',
+      name: '404 Error',
+      component: () => import('../views/Errors/FourZeroFour.vue'),
+      meta: {
+        title: '404 Error Page',
+      },
+    },
+    {
+      path: '/error-503',
+      name: '503 Error',
+      component: () => import('../views/Errors/FiveZeroThree.vue'),
+      meta: {
+        title: '503: AKSES DITOLAK',
+      },
+    },
+    {
+      path: '/error-500',
+      name: '500 Error',
+      component: () => import('../views/Errors/FiveZeroZero.vue'),
+      meta: {
+        title: '500 Error Page',
+      },
+    },
+    // Halaman Users
+    {
+      path: '/users',
+      name: 'Users',
+      component: () => import('../views/Users/Users.vue'),
+      meta: {
+        title: 'Pengguna',
+        permission: 'users.read',
+      },
+    },
+    // Halaman Roles
+    {
+      path: '/roles',
+      name: 'Roles',
+      component: () => import('../views/Roles/Roles.vue'),
+      meta: {
+        title: 'Roles',
+        permission: 'roles.read',
+      },
+    },
     {
       path: '/',
       name: 'Ecommerce',
@@ -591,30 +645,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/error-404',
-      name: '404 Error',
-      component: () => import('../views/Errors/FourZeroFour.vue'),
-      meta: {
-        title: '404 Error Page',
-      },
-    },
-    {
-      path: '/error-503',
-      name: '503 Error',
-      component: () => import('../views/Errors/FiveZeroThree.vue'),
-      meta: {
-        title: '503 Error Page',
-      },
-    },
-    {
-      path: '/error-500',
-      name: '500 Error',
-      component: () => import('../views/Errors/FiveZeroZero.vue'),
-      meta: {
-        title: '500 Error Page',
-      },
-    },
-    {
       path: '/:pathMatch(.*)*',
       component: () => import('../views/Errors/FourZeroFour.vue'),
       meta: {
@@ -643,6 +673,7 @@ const router = createRouter({
       component: () => import('../views/Auth/Signin.vue'),
       meta: {
         title: 'Sign In',
+        requiresAuth: false,
       },
     },
     {
@@ -651,6 +682,7 @@ const router = createRouter({
       component: () => import('../views/Auth/Signup.vue'),
       meta: {
         title: 'Sign Up',
+        requiresAuth: false,
       },
     },
     {
@@ -659,6 +691,7 @@ const router = createRouter({
       component: () => import('../views/Auth/TwoStepVerification.vue'),
       meta: {
         title: 'Two Step Verification',
+        requiresAuth: false,
       },
     },
     {
@@ -667,6 +700,7 @@ const router = createRouter({
       component: () => import('../views/Auth/ResetPassword.vue'),
       meta: {
         title: 'Reset Password',
+        requiresAuth: false,
       },
     },
     {
@@ -722,7 +756,50 @@ const router = createRouter({
 
 export default router
 
-router.beforeEach((to, from, next) => {
-  document.title = `Vue.js ${to.meta.title} | TailAdmin - Vue.js Tailwind CSS Dashboard Template`
-  next()
+router.beforeEach(async (to) => {
+  document.title = `NLLA | ${to.meta.title ?? 'CMS'}`
+
+  const authStore = useAuthStore()
+
+  // Public route
+  if (to.meta.requiresAuth === false) {
+    return true
+  }
+
+  // Tidak memiliki token
+  if (!authStore.accessToken) {
+    return {
+      name: 'Signin',
+      query: {
+        redirect: to.fullPath,
+      },
+    }
+  }
+
+  // Token ada tetapi user belum dimuat
+  if (!authStore.user) {
+    try {
+      await authStore.fetchMe()
+    } catch (error) {
+      console.error('Session tidak valid:', error)
+
+      authStore.logout()
+
+      return {
+        name: 'Signin',
+        query: {
+          redirect: to.fullPath,
+        },
+      }
+    }
+  }
+
+  // Cek permission
+  if (to.meta.permission && !authStore.hasPermission(to.meta.permission as string)) {
+    return {
+      name: '403 Error',
+    }
+  }
+
+  return true
 })
