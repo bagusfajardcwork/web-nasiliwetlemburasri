@@ -25,6 +25,7 @@ import FolderIcon from './FolderIcon.vue'
 import SettingsIcon from './SettingsIcon.vue'
 import HomeIcon from './HomeIcon.vue'
 import ChevronRightIcon from './ChevronRightIcon.vue'
+import ChevronLeftIcon from './ChevronLeftIcon.vue'
 import BoxIcon from './BoxIcon.vue'
 import ErrorHexaIcon from './ErrorHexaIcon.vue'
 import Calendar2Line from './Calendar2Line.vue'
@@ -82,7 +83,7 @@ import NotionIcon from './NotionIcon.vue'
 import PaperClipIcon from './PaperClip.vue'
 import Play from './Play.vue'
 import PlusAltIcon from './PlusAltIcon.vue'
-import Search from './Search.vue'
+import SearchIcon from './SearchIcon.vue'
 import Share from './Share.vue'
 import SliderHorizontal from './SliderHorizontal.vue'
 import Stack from './Stack.vue'
@@ -142,6 +143,7 @@ export {
   PaperclipIcon,
   BoxIcon,
   ChevronRightIcon,
+  ChevronLeftIcon,
   GridIcon,
   BoxCubeIcon,
   CalenderIcon,
@@ -202,7 +204,7 @@ export {
   NotionIcon,
   Play,
   PlusAltIcon,
-  Search,
+  SearchIcon,
   Share,
   SliderHorizontal,
   Stack,

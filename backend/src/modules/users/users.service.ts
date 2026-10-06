@@ -2,7 +2,7 @@ import {
   roles,
   users,
   userRoles,
-} from '../../db/schema/index.js';
+} from '../../db/schema';
 
 import {
   and,

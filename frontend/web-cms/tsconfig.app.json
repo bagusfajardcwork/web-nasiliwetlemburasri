@@ -1,18 +1,20 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
-    "env.d.ts",
-    "frontend/src/**/*",
-    "frontend/src/**/*.vue"
+    "frontend/web-cms/env.d.ts",
+    "frontend/web-cms/src/**/*",
+    "frontend/web-cms/src/**/*.vue"
   ],
-  "exclude": [
-    "frontend/src/**/__tests__/*"
-  ],
+  "exclude": ["frontend/web-cms/src/**/__tests__/*"],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
+    /* Tambahkan target & lib untuk mengatasi error TS2705 */
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./frontend/web-cms/src/*"]
     }
   }
 }

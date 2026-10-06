@@ -22,6 +22,7 @@ import router from './router'
 import VueApexCharts from 'vue3-apexcharts'
 import FloatingVue from 'floating-vue'
 
+
 const app = createApp(App)
 
 const pinia = createPinia()

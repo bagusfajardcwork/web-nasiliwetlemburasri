@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth.store'
 
@@ -54,7 +56,7 @@ const router = createRouter({
     {
       path: '/roles',
       name: 'Roles',
-      component: () => import('../views/Roles/Roles.vue'),
+      component: () => import('@/views/Roles/Roles.vue'),
       meta: {
         title: 'Roles',
         permission: 'roles.read',

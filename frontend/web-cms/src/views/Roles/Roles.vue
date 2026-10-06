@@ -1,3 +1,194 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import TableDropdown from '@/components/common/TableDropdown.vue'
+import AdminLayout from '@/components/layout/AdminLayout.vue'
+import PageBreadcrumb from '@/components/common/PageBreadcrumb.vue'
+
+const currentPageTitle = ref('Pengguna')
+const transactions = ref([
+  {
+    id: 1,
+    name: 'Bought PYPL',
+    image: '/images/brand/brand-08.svg',
+    date: 'Nov 23, 01:00 PM',
+    price: '$2,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 2,
+    name: 'Bought AAPL',
+    image: '/images/brand/brand-07.svg',
+    date: 'Nov 23, 01:00 PM',
+    price: '$2,567.88',
+    category: 'Finance',
+    status: 'Pending',
+  },
+  {
+    id: 3,
+    name: 'Sell KKST',
+    image: '/images/brand/brand-15.svg',
+    date: 'Nov 23, 01:00 PM',
+    price: '$2,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 4,
+    name: 'Bought FB',
+    image: '/images/brand/brand-02.svg',
+    date: 'Nov 23, 01:00 PM',
+    price: '$2,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 5,
+    name: 'Sell AMZN',
+    image: '/images/brand/brand-10.svg',
+    date: 'Nov 23, 01:00 PM',
+    price: '$2,567.88',
+    category: 'Finance',
+    status: 'Failed',
+  },
+  {
+    id: 6,
+    name: 'Bought MSFT',
+    image: '/images/brand/brand-09.svg',
+    date: 'Nov 22, 01:00 PM',
+    price: '$1,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 7,
+    name: 'Bought GOOG',
+    image: '/images/brand/brand-01.svg',
+    date: 'Nov 22, 01:00 PM',
+    price: '$3,567.88',
+    category: 'Finance',
+    status: 'Pending',
+  },
+  {
+    id: 8,
+    name: 'Sell TSLA',
+    image: '/images/brand/brand-12.svg',
+    date: 'Nov 22, 01:00 PM',
+    price: '$4,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 9,
+    name: 'Bought NVDA',
+    image: '/images/brand/brand-11.svg',
+    date: 'Nov 22, 01:00 PM',
+    price: '$5,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 10,
+    name: 'Sell META',
+    image: '/images/brand/brand-03.svg',
+    date: 'Nov 22, 01:00 PM',
+    price: '$6,567.88',
+    category: 'Finance',
+    status: 'Failed',
+  },
+  {
+    id: 11,
+    name: 'Bought DIS',
+    image: '/images/brand/brand-04.svg',
+    date: 'Nov 21, 01:00 PM',
+    price: '$7,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 12,
+    name: 'Bought NFLX',
+    image: '/images/brand/brand-05.svg',
+    date: 'Nov 21, 01:00 PM',
+    price: '$8,567.88',
+    category: 'Finance',
+    status: 'Pending',
+  },
+  {
+    id: 13,
+    name: 'Sell CRM',
+    image: '/images/brand/brand-06.svg',
+    date: 'Nov 21, 01:00 PM',
+    price: '$9,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 14,
+    name: 'Bought TSLA',
+    image: '/images/brand/brand-13.svg',
+    date: 'Nov 21, 01:00 PM',
+    price: '$10,567.88',
+    category: 'Finance',
+    status: 'Success',
+  },
+  {
+    id: 15,
+    name: 'Sell AAPL',
+    image: '/images/brand/brand-14.svg',
+    date: 'Nov 21, 01:00 PM',
+    price: '$11,567.88',
+    category: 'Finance',
+    status: 'Failed',
+  },
+])
+
+const itemsPerPage = 5
+const currentPage = ref(1)
+
+const totalPages = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
+
+const paginatedTransactions = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return transactions.value.slice(start, end)
+})
+
+const displayedPages = computed(() => {
+  const range = []
+  for (let i = 1; i <= totalPages.value; i++) {
+    if (
+        i === 1 ||
+        i === totalPages.value ||
+        (i >= currentPage.value - 1 && i <= currentPage.value + 1)
+    ) {
+      range.push(i)
+    } else if (range[range.length - 1] !== '...') {
+      range.push('...')
+    }
+  }
+  return range
+})
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
+}
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+  }
+}
+
+const goToPage = (page) => {
+  if (typeof page === 'number' && page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+</script>
+
 <template>
   <AdminLayout>
     <PageBreadcrumb :pageTitle="currentPageTitle" />
@@ -250,194 +441,3 @@
     </div>
   </AdminLayout>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import TableDropdown from '@/components/common/TableDropdown.vue'
-import AdminLayout from '@/components/layout/AdminLayout.vue'
-import PageBreadcrumb from '@/components/common/PageBreadcrumb.vue'
-
-const currentPageTitle = ref('Pengguna')
-const transactions = ref([
-  {
-    id: 1,
-    name: 'Bought PYPL',
-    image: '/images/brand/brand-08.svg',
-    date: 'Nov 23, 01:00 PM',
-    price: '$2,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 2,
-    name: 'Bought AAPL',
-    image: '/images/brand/brand-07.svg',
-    date: 'Nov 23, 01:00 PM',
-    price: '$2,567.88',
-    category: 'Finance',
-    status: 'Pending',
-  },
-  {
-    id: 3,
-    name: 'Sell KKST',
-    image: '/images/brand/brand-15.svg',
-    date: 'Nov 23, 01:00 PM',
-    price: '$2,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 4,
-    name: 'Bought FB',
-    image: '/images/brand/brand-02.svg',
-    date: 'Nov 23, 01:00 PM',
-    price: '$2,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 5,
-    name: 'Sell AMZN',
-    image: '/images/brand/brand-10.svg',
-    date: 'Nov 23, 01:00 PM',
-    price: '$2,567.88',
-    category: 'Finance',
-    status: 'Failed',
-  },
-  {
-    id: 6,
-    name: 'Bought MSFT',
-    image: '/images/brand/brand-09.svg',
-    date: 'Nov 22, 01:00 PM',
-    price: '$1,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 7,
-    name: 'Bought GOOG',
-    image: '/images/brand/brand-01.svg',
-    date: 'Nov 22, 01:00 PM',
-    price: '$3,567.88',
-    category: 'Finance',
-    status: 'Pending',
-  },
-  {
-    id: 8,
-    name: 'Sell TSLA',
-    image: '/images/brand/brand-12.svg',
-    date: 'Nov 22, 01:00 PM',
-    price: '$4,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 9,
-    name: 'Bought NVDA',
-    image: '/images/brand/brand-11.svg',
-    date: 'Nov 22, 01:00 PM',
-    price: '$5,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 10,
-    name: 'Sell META',
-    image: '/images/brand/brand-03.svg',
-    date: 'Nov 22, 01:00 PM',
-    price: '$6,567.88',
-    category: 'Finance',
-    status: 'Failed',
-  },
-  {
-    id: 11,
-    name: 'Bought DIS',
-    image: '/images/brand/brand-04.svg',
-    date: 'Nov 21, 01:00 PM',
-    price: '$7,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 12,
-    name: 'Bought NFLX',
-    image: '/images/brand/brand-05.svg',
-    date: 'Nov 21, 01:00 PM',
-    price: '$8,567.88',
-    category: 'Finance',
-    status: 'Pending',
-  },
-  {
-    id: 13,
-    name: 'Sell CRM',
-    image: '/images/brand/brand-06.svg',
-    date: 'Nov 21, 01:00 PM',
-    price: '$9,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 14,
-    name: 'Bought TSLA',
-    image: '/images/brand/brand-13.svg',
-    date: 'Nov 21, 01:00 PM',
-    price: '$10,567.88',
-    category: 'Finance',
-    status: 'Success',
-  },
-  {
-    id: 15,
-    name: 'Sell AAPL',
-    image: '/images/brand/brand-14.svg',
-    date: 'Nov 21, 01:00 PM',
-    price: '$11,567.88',
-    category: 'Finance',
-    status: 'Failed',
-  },
-])
-
-const itemsPerPage = 5
-const currentPage = ref(1)
-
-const totalPages = computed(() => Math.ceil(transactions.value.length / itemsPerPage))
-
-const paginatedTransactions = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return transactions.value.slice(start, end)
-})
-
-const displayedPages = computed(() => {
-  const range = []
-  for (let i = 1; i <= totalPages.value; i++) {
-    if (
-      i === 1 ||
-      i === totalPages.value ||
-      (i >= currentPage.value - 1 && i <= currentPage.value + 1)
-    ) {
-      range.push(i)
-    } else if (range[range.length - 1] !== '...') {
-      range.push('...')
-    }
-  }
-  return range
-})
-
-const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--
-  }
-}
-
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++
-  }
-}
-
-const goToPage = (page) => {
-  if (typeof page === 'number' && page >= 1 && page <= totalPages.value) {
-    currentPage.value = page
-  }
-}
-</script>
