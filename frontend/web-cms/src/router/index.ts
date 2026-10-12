@@ -1,807 +1,1400 @@
-/// <reference types="vite/client" />
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { useAuthStore } from "@/stores/auth.store";
 
-import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '../stores/auth.store'
+import EcommercePage from "../pages/Dashboard/EcommercePage.vue";
+import DashboardMain from "../pages/Dashboard/DashboardMain.vue";
+import CRMPage from "../pages/Dashboard/CRMPage.vue";
+import ProjectManagementPage from "../pages/Dashboard/ProjectManagementPage.vue";
+import LMSPage from "../pages/Dashboard/LMSPage.vue";
+import HelpDeskPage from "../pages/Dashboard/HelpDeskPage.vue";
+import AnalyticsPage from "../pages/Dashboard/AnalyticsPage.vue";
+import CryptoPage from "../pages/Dashboard/CryptoPage.vue";
+import SalesPage from "../pages/Dashboard/SalesPage.vue";
+import HospitalPage from "../pages/Dashboard/HospitalPage.vue";
+import MarketingPage from "../pages/Dashboard/MarketingPage.vue";
+import NFTPage from "../pages/Dashboard/NFTPage.vue";
+import SaaSPage from "../pages/Dashboard/SaaSPage.vue";
+import RealEstatePage from "../pages/Dashboard/RealEstatePage.vue";
+import ShipmentPage from "../pages/Dashboard/ShipmentPage.vue";
+import FinancePage from "../pages/Dashboard/FinancePage.vue";
+import HRMPage from "../pages/Dashboard/HRMPage.vue";
+import SchoolPage from "../pages/Dashboard/SchoolPage.vue";
+import CallCenterPage from "../pages/Dashboard/CallCenterPage.vue";
+import POSSystemPage from "../pages/Dashboard/POSSystemPage.vue";
+import PodcastPage from "../pages/Dashboard/PodcastPage.vue";
+import SocialMediaPage from "../pages/Dashboard/SocialMediaPage.vue";
+import DoctorPage from "../pages/Dashboard/DoctorPage.vue";
+import BeautySalonPage from "../pages/Dashboard/BeautySalonPage.vue";
+import StoreAnalysisPage from "../pages/Dashboard/StoreAnalysisPage.vue";
+import RestaurantPage from "../pages/Dashboard/RestaurantPage.vue";
+import HotelPage from "../pages/Dashboard/HotelPage.vue";
+import RealEstateAgentPage from "../pages/Dashboard/RealEstateAgentPage.vue";
+import CreditCardPage from "../pages/Dashboard/CreditCardPage.vue";
+import CryptoTraderPage from "../pages/Dashboard/CryptoTraderPage.vue";
+import CryptoPerformancePage from "../pages/Dashboard/CryptoPerformancePage.vue";
+import HomePage from "../pages/HomePage.vue";
+import FeaturesPage from "../pages/FeaturesPage.vue";
+import OurTeamPage from "../pages/OurTeamPage.vue";
+import FAQPage from "../pages/FAQPage.vue";
+import ContactPage from "../pages/ContactPage.vue";
+import CalendarPage from "../pages/Apps/CalendarPage.vue";
+import ToDoListPage from "../pages/Apps/ToDoListPage.vue";
+import ContactsPage from "../pages/Apps/ContactsPage.vue";
+import ChatPage from "../pages/Apps/ChatPage.vue";
+import InboxPage from "../pages/Apps/Email/InboxPage.vue";
+import ComposePage from "../pages/Apps/Email/ComposePage.vue";
+import ReadEmailPage from "../pages/Apps/Email/ReadEmailPage.vue";
+import SnoozedPage from "../pages/Apps/Email/SnoozedPage.vue";
+import DraftPage from "../pages/Apps/Email/DraftPage.vue";
+import SentMailPage from "../pages/Apps/Email/SentMailPage.vue";
+import TrashPage from "../pages/Apps/Email/TrashPage.vue";
+import SpamPage from "../pages/Apps/Email/SpamPage.vue";
+import StarredPage from "../pages/Apps/Email/StarredPage.vue";
+import ImportantPage from "../pages/Apps/Email/ImportantPage.vue";
+import KanbanBoardPage from "../pages/Apps/KanbanBoardPage.vue";
+import MyDrivePage from "../pages/Apps/FileManager/MyDrivePage.vue";
+import AssetsPage from "../pages/Apps/FileManager/AssetsPage.vue";
+import ProjectsPage from "../pages/Apps/FileManager/ProjectsPage.vue";
+import PersonalPage from "../pages/Apps/FileManager/PersonalPage.vue";
+import ApplicationsPage from "../pages/Apps/FileManager/ApplicationsPage.vue";
+import DocumentsPage from "../pages/Apps/FileManager/DocumentsPage.vue";
+import MediaPage from "../pages/Apps/FileManager/MediaPage.vue";
+import RecantsPage from "../pages/Apps/FileManager/RecantsPage.vue";
+import ImportantFilesPage from "../pages/Apps/FileManager/ImportantFilesPage.vue";
+import SpamFilesPage from "../pages/Apps/FileManager/SpamFilesPage.vue";
+import TrashFilesPage from "../pages/Apps/FileManager/TrashFilesPage.vue";
+import ProductsGridPage from "../pages/Ecommerce/ProductsGridPage.vue";
+import ProductsListPage from "../pages/Ecommerce/ProductsListPage.vue";
+import ProductDetailsPage from "../pages/Ecommerce/ProductDetailsPage.vue";
+import CreateProductPage from "../pages/Ecommerce/CreateProductPage.vue";
+import EditProductPage from "../pages/Ecommerce/EditProductPage.vue";
+import CartPage from "../pages/Ecommerce/CartPage.vue";
+import CheckoutPage from "../pages/Ecommerce/CheckoutPage.vue";
+import OrdersPage from "../pages/Ecommerce/OrdersPage.vue";
+import OrderDetailsPage from "../pages/Ecommerce/OrderDetailsPage.vue";
+import CreateOrderPage from "../pages/Ecommerce/CreateOrderPage.vue";
+import OrderTrackingPage from "../pages/Ecommerce/OrderTrackingPage.vue";
+import CustomersPage from "../pages/Ecommerce/CustomersPage.vue";
+import CustomerDetailsPage from "../pages/Ecommerce/CustomerDetailsPage.vue";
+import CategoriesPage from "../pages/Ecommerce/CategoriesPage.vue";
+import SellersPage from "../pages/Ecommerce/SellersPage.vue";
+import SellerDetailsPage from "../pages/Ecommerce/SellerDetailsPage.vue";
+import CreateSellerPage from "../pages/Ecommerce/CreateSellerPage.vue";
+import ReviewsPage from "../pages/Ecommerce/ReviewsPage.vue";
+import RefundsPage from "../pages/Ecommerce/RefundsPage.vue";
+import CRMContactsPage from "../pages/CRM/CRMContactsPage.vue";
+import CRMCustomersPage from "../pages/CRM/CRMCustomersPage.vue";
+import LeadsPage from "../pages/CRM/LeadsPage.vue";
+import DealsPage from "../pages/CRM/DealsPage.vue";
+import ProjectOverviewPage from "../pages/ProjectManagement/ProjectOverviewPage.vue";
+import ProjectsListPage from "../pages/ProjectManagement/ProjectsListPage.vue";
+import CreateProjectPage from "../pages/ProjectManagement/CreateProjectPage.vue";
+import ClientsPage from "../pages/ProjectManagement/ClientsPage.vue";
+import TeamsPage from "../pages/ProjectManagement/TeamsPage.vue";
+import KanbanBoardsPage from "../pages/ProjectManagement/KanbanBoardsPage.vue";
+import UserPage from "../pages/ProjectManagement/UserPage.vue";
+import CoursesListPage from "../pages/LMS/CoursesListPage.vue";
+import CourseDetailsPage from "../pages/LMS/CourseDetailsPage.vue";
+import LessonPreviewPage from "../pages/LMS/LessonPreviewPage.vue";
+import CreateCoursePage from "../pages/LMS/CreateCoursePage.vue";
+import EditCoursePage from "../pages/LMS/EditCoursePage.vue";
+import InstructorsPage from "../pages/LMS/InstructorsPage.vue";
+import TicketsPage from "../pages/HelpDesk/TicketsPage.vue";
+import TicketDetailsPage from "../pages/HelpDesk/TicketDetailsPage.vue";
+import AgentsPage from "../pages/HelpDesk/AgentsPage.vue";
+import ReportsPage from "../pages/HelpDesk/ReportsPage.vue";
+import MarketplacePage from "../pages/NFTMarketplace/MarketplacePage.vue";
+import ExploreAllPage from "../pages/NFTMarketplace/ExploreAllPage.vue";
+import LiveAuctionPage from "../pages/NFTMarketplace/LiveAuctionPage.vue";
+import NFTDetailsPage from "../pages/NFTMarketplace/NFTDetailsPage.vue";
+import CreatorsPage from "../pages/NFTMarketplace/CreatorsPage.vue";
+import CreatorDetailsPage from "../pages/NFTMarketplace/CreatorDetailsPage.vue";
+import WalletConnectPage from "../pages/NFTMarketplace/WalletConnectPage.vue";
+import RealEstateCustomersPage from "../pages/RealEstate/RealEstateCustomersPage.vue";
+import PropertyListPage from "../pages/RealEstate/PropertyListPage.vue";
+import PropertyOverviewPage from "../pages/RealEstate/PropertyOverviewPage.vue";
+import AddPropertyPage from "../pages/RealEstate/AddPropertyPage.vue";
+import AgentlistPage from "../pages/RealEstate/AgentlistPage.vue";
+import AgentOverviewPage from "../pages/RealEstate/AgentOverviewPage.vue";
+import AddAgentPage from "../pages/RealEstate/AddAgentPage.vue";
+import WalletPage from "../pages/Finance/WalletPage.vue";
+import TransactionPage from "../pages/Finance/TransactionPage.vue";
+import PatientsListPage from "../pages/Doctor/PatientsListPage.vue";
+import AddPatientPage from "../pages/Doctor/AddPatientPage.vue";
+import PatientDetailsPage from "../pages/Doctor/PatientDetailsPage.vue";
+import AppointmentsPage from "../pages/Doctor/AppointmentsPage.vue";
+import PrescriptionsPage from "../pages/Doctor/PrescriptionsPage.vue";
+import WritePrescriptionPage from "../pages/Doctor/WritePrescriptionPage.vue";
+import MenusPage from "../pages/Restaurant/MenusPage.vue";
+import DishDetailsPage from "../pages/Restaurant/DishDetailsPage.vue";
+import RoomsListPage from "../pages/Hotel/RoomsListPage.vue";
+import RoomDetailsPage from "../pages/Hotel/RoomDetailsPage.vue";
+import GuestsListPage from "../pages/Hotel/GuestsListPage.vue";
+import PropertiesPage from "../pages/RealEstateAgent/PropertiesPage.vue";
+import PropertyDetailsPage from "../pages/RealEstateAgent/PropertyDetailsPage.vue";
+import TransactionsPage from "../pages/CryptoTrader/TransactionsPage.vue";
+import GainersLosersPage from "../pages/CryptoTrader/GainersLosersPage.vue";
+import CTWalletPage from "../pages/CryptoTrader/CTWalletPage.vue";
+import EventsPage from "../pages/Events/EventsPage.vue";
+import EventsListPage from "../pages/Events/EventsListPage.vue";
+import EventDetailsPage from "../pages/Events/EventDetailsPage.vue";
+import CreateAnEventPage from "../pages/Events/CreateAnEventPage.vue";
+import EditAnEventPage from "../pages/Events/EditAnEventPage.vue";
+import ProfilePage from "../pages/Social/ProfilePage.vue";
+import SettingsPage from "../pages/Social/SettingsPage.vue";
+import InvoicesPage from "../pages/Invoices/InvoicesPage.vue";
+import InvoiceDetailsPage from "../pages/Invoices/InvoiceDetailsPage.vue";
+import CreateInvoicePage from "../pages/Invoices/CreateInvoicePage.vue";
+import EditInvoicePage from "../pages/Invoices/EditInvoicePage.vue";
+import TeamMembersPage from "../pages/Users/TeamMembersPage.vue";
+import UsersListPage from "../pages/Users/UsersListPage.vue";
+import AddUserPage from "../pages/Users/AddUserPage.vue";
+import UserProfilePage from "../pages/Profile/UserProfilePage.vue";
+import UserTeamPage from "../pages/Profile/UserTeamPage.vue";
+import UserProjectsPage from "../pages/Profile/UserProjectsPage.vue";
+import StarterPage from "../pages/StarterPage.vue";
+import MaterialSymbolsPage from "../pages/Icons/MaterialSymbolsPage.vue";
+import FeatherIconPage from "../pages/Icons/FeatherIconPage.vue";
+import RemixIconPage from "../pages/Icons/RemixIconPage.vue";
+import AlertsPage from "../pages/UIElements/AlertsPage.vue";
+import AvatarPage from "../pages/UIElements/AvatarPage.vue";
+import ButtonsPage from "../pages/UIElements/ButtonsPage.vue";
+import BadgesPage from "../pages/UIElements/BadgesPage.vue";
+import CardsPage from "../pages/UIElements/CardsPage.vue";
+import CarouselsPage from "../pages/UIElements/CarouselsPage.vue";
+import DropdownsPage from "../pages/UIElements/DropdownsPage.vue";
+import GridsPage from "../pages/UIElements/GridsPage.vue";
+import ImagesPage from "../pages/UIElements/ImagesPage.vue";
+import ListPage from "../pages/UIElements/ListPage.vue";
+import ModalsPage from "../pages/UIElements/ModalsPage.vue";
+import NavsPage from "../pages/UIElements/NavsPage.vue";
+import PaginationsPage from "../pages/UIElements/PaginationsPage.vue";
+import PopoverTooltipsPage from "../pages/UIElements/PopoverTooltipsPage.vue";
+import ProgressPage from "../pages/UIElements/ProgressPage.vue";
+import SpinnersPage from "../pages/UIElements/SpinnersPage.vue";
+import TabsPage from "../pages/UIElements/TabsPage.vue";
+import AccordionsPage from "../pages/UIElements/AccordionsPage.vue";
+import DateTimePickerPage from "../pages/UIElements/DateTimePickerPage.vue";
+import VideosPage from "../pages/UIElements/VideosPage.vue";
+import BasicTablePage from "../pages/Tables/BasicTablePage.vue";
+import DataTablePage from "../pages/Tables/DataTablePage.vue";
+import BasicElementsPage from "../pages/Forms/BasicElementsPage.vue";
+import AdvancedElementsPage from "../pages/Forms/AdvancedElementsPage.vue";
+import ValidationPage from "../pages/Forms/ValidationPage.vue";
+import WizardPage from "../pages/Forms/WizardPage.vue";
+import EditorsPage from "../pages/Forms/EditorsPage.vue";
+import FileUploadPage from "../pages/Forms/FileUploadPage.vue";
+import ApexChartsPage from "../pages/ApexChartsPage.vue";
+import LoginPage from "../pages/Authentication/LoginPage.vue";
+import RegisterPage from "../pages/Authentication/RegisterPage.vue";
+import ResetPasswordPage from "../pages/Authentication/ResetPasswordPage.vue";
+import ForgetPasswordPage from "../pages/Authentication/ForgetPasswordPage.vue";
+import LockScreenPage from "../pages/Authentication/LockScreenPage.vue";
+import LogOutPage from "../pages/Authentication/LogOutPage.vue";
+import ConfirmMailPage from "../pages/Authentication/ConfirmMailPage.vue";
+import PricingPage from "../pages/ExtraPages/PricingPage.vue";
+import FAQsPage from "../pages/ExtraPages/FAQsPage.vue";
+import TimelinePage from "../pages/ExtraPages/TimelinePage.vue";
+import AnimationPage from "../pages/ExtraPages/AnimationPage.vue";
+import ClipBoardPage from "../pages/ExtraPages/ClipBoardPage.vue";
+import DragDropPage from "../pages/ExtraPages/DragDropPage.vue";
+import RangeSliderPage from "../pages/ExtraPages/RangeSliderPage.vue";
+import RatingsPage from "../pages/ExtraPages/RatingsPage.vue";
+import ToastsPage from "../pages/ExtraPages/ToastsPage.vue";
+import CheckRadioPage from "../pages/ExtraPages/CheckRadioPage.vue";
+import SelectPage from "../pages/ExtraPages/SelectPage.vue";
+import ScrollbarPage from "../pages/ExtraPages/ScrollbarPage.vue";
+import TypographyPage from "../pages/ExtraPages/TypographyPage.vue";
+import GalleryPage from "../pages/ExtraPages/GalleryPage.vue";
+import SearchPage from "../pages/ExtraPages/SearchPage.vue";
+import BlankPage from "../pages/ExtraPages/BlankPage.vue";
+import InternalErrorPage from "../pages/Error/InternalErrorPage.vue";
+import ForbiddenPage from "../pages/Error/ForbiddenPage.vue";
+import ErrorPage from "../pages/ErrorPage.vue";
+import WidgetsPage from "../pages/WidgetsPage.vue";
+import GoogleMapPage from "../pages/GoogleMapPage.vue";
+import NotificationPage from "../pages/NotificationPage.vue";
+import MemberPage from "../pages/MemberPage.vue";
+import MyProfilePage from "../pages/MyProfilePage.vue";
+import AccountSettingsPage from "../pages/Settings/AccountSettingsPage.vue";
+import ChangePasswordPage from "../pages/Settings/ChangePasswordPage.vue";
+import ConnectionsPage from "../pages/Settings/ConnectionsPage.vue";
+import PrivacyPolicyPage from "../pages/Settings/PrivacyPolicyPage.vue";
+import TermsConditionsPage from "../pages/Settings/TermsConditionsPage.vue";
+
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: "/dashboard/ecommerce",
+    name: "EcommercePage",
+    component: EcommercePage,
+    meta: {
+      requiresAuth: true,
+      permission: "users.read",
+    },
+  }, {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: DashboardMain,
+    meta: {
+      requiresAuth: true,
+      permission: "users.read",
+    },
+  },
+  {
+    path: "/users",
+    name: "Users",
+    component: UsersListPage,
+    meta: {
+      requiresAuth: true,
+      permission: "users.read",
+    },
+  },
+  {
+    path: "/users/users-list",
+    name: "UsersListPage",
+    component: UsersListPage,
+    meta: {
+      requiresAuth: true,
+      permission: "users.read",
+    },
+  },
+  {
+    path: "/users/add-user",
+    name: "AddUserPage",
+    component: AddUserPage,
+    meta: {
+      requiresAuth: true,
+      permission: "users.read",
+    },
+  },
+  {
+    path: "/dashboard/crm",
+    name: "CRMPage",
+    component: CRMPage,
+  },
+  {
+    path: "/dashboard/project-management",
+    name: "ProjectManagementPage",
+    component: ProjectManagementPage,
+  },
+  {
+    path: "/dashboard/lms",
+    name: "LMSPage",
+    component: LMSPage,
+  },
+  {
+    path: "/dashboard/help-desk",
+    name: "HelpDeskPage",
+    component: HelpDeskPage,
+  },
+  {
+    path: "/dashboard/analytics",
+    name: "AnalyticsPage",
+    component: AnalyticsPage,
+  },
+  {
+    path: "/dashboard/crypto",
+    name: "CryptoPage",
+    component: CryptoPage,
+  },
+  {
+    path: "/dashboard/sales",
+    name: "SalesPage",
+    component: SalesPage,
+  },
+  {
+    path: "/dashboard/hospital",
+    name: "HospitalPage",
+    component: HospitalPage,
+  },
+  {
+    path: "/dashboard/marketing",
+    name: "MarketingPage",
+    component: MarketingPage,
+  },
+  {
+    path: "/dashboard/nft",
+    name: "NFTPage",
+    component: NFTPage,
+  },
+  {
+    path: "/dashboard/saas",
+    name: "SaaSPage",
+    component: SaaSPage,
+  },
+  {
+    path: "/dashboard/real-estate",
+    name: "RealEstatePage",
+    component: RealEstatePage,
+  },
+  {
+    path: "/dashboard/shipment",
+    name: "ShipmentPage",
+    component: ShipmentPage,
+  },
+  {
+    path: "/dashboard/finance",
+    name: "FinancePage",
+    component: FinancePage,
+  },
+  {
+    path: "/dashboard/hrm",
+    name: "HRMPage",
+    component: HRMPage,
+  },
+  {
+    path: "/dashboard/school",
+    name: "SchoolPage",
+    component: SchoolPage,
+  },
+  {
+    path: "/dashboard/call-center",
+    name: "CallCenterPage",
+    component: CallCenterPage,
+  },
+  {
+    path: "/dashboard/pos-system",
+    name: "POSSystemPage",
+    component: POSSystemPage,
+  },
+  {
+    path: "/dashboard/podcast",
+    name: "PodcastPage",
+    component: PodcastPage,
+  },
+  {
+    path: "/dashboard/social-media",
+    name: "SocialMediaPage",
+    component: SocialMediaPage,
+  },
+  {
+    path: "/dashboard/doctor",
+    name: "DoctorPage",
+    component: DoctorPage,
+  },
+  {
+    path: "/dashboard/beauty-salon",
+    name: "BeautySalonPage",
+    component: BeautySalonPage,
+  },
+  {
+    path: "/dashboard/store-analysis",
+    name: "StoreAnalysisPage",
+    component: StoreAnalysisPage,
+  },
+  {
+    path: "/dashboard/restaurant",
+    name: "RestaurantPage",
+    component: RestaurantPage,
+  },
+  {
+    path: "/dashboard/hotel",
+    name: "HotelPage",
+    component: HotelPage,
+  },
+  {
+    path: "/dashboard/real-estate-agent",
+    name: "RealEstateAgentPage",
+    component: RealEstateAgentPage,
+  },
+  {
+    path: "/dashboard/credit-card",
+    name: "CreditCardPage",
+    component: CreditCardPage,
+  },
+  {
+    path: "/dashboard/crypto-trader",
+    name: "CryptoTraderPage",
+    component: CryptoTraderPage,
+  },
+  {
+    path: "/dashboard/crypto-performance",
+    name: "CryptoPerformancePage",
+    component: CryptoPerformancePage,
+  },
+  {
+    path: "/",
+    name: "HomePage",
+    component: HomePage,
+  },
+  {
+    path: "/features",
+    name: "FeaturesPage",
+    component: FeaturesPage,
+  },
+  {
+    path: "/our-team",
+    name: "OurTeamPage",
+    component: OurTeamPage,
+  },
+  {
+    path: "/faq",
+    name: "FAQPage",
+    component: FAQPage,
+  },
+  {
+    path: "/contact",
+    name: "ContactPage",
+    component: ContactPage,
+  },
+  {
+    path: "/apps/calendar",
+    name: "CalendarPage",
+    component: CalendarPage,
+  },
+  {
+    path: "/apps/to-do-list",
+    name: "ToDoListPage",
+    component: ToDoListPage,
+  },
+  {
+    path: "/apps/contacts",
+    name: "ContactsPage",
+    component: ContactsPage,
+  },
+  {
+    path: "/apps/chat",
+    name: "ChatPage",
+    component: ChatPage,
+  },
+  {
+    path: "/apps/email/inbox",
+    name: "InboxPage",
+    component: InboxPage,
+  },
+  {
+    path: "/apps/email/compose",
+    name: "ComposePage",
+    component: ComposePage,
+  },
+  {
+    path: "/apps/email/read-email",
+    name: "ReadEmailPage",
+    component: ReadEmailPage,
+  },
+  {
+    path: "/apps/email/snoozed",
+    name: "SnoozedPage",
+    component: SnoozedPage,
+  },
+  {
+    path: "/apps/email/draft",
+    name: "DraftPage",
+    component: DraftPage,
+  },
+  {
+    path: "/apps/email/sent-mail",
+    name: "SentMailPage",
+    component: SentMailPage,
+  },
+  {
+    path: "/apps/email/trash-email",
+    name: "TrashPage",
+    component: TrashPage,
+  },
+  {
+    path: "/apps/email/spam",
+    name: "SpamPage",
+    component: SpamPage,
+  },
+  {
+    path: "/apps/email/starred",
+    name: "StarredPage",
+    component: StarredPage,
+  },
+  {
+    path: "/apps/email/important",
+    name: "ImportantPage",
+    component: ImportantPage,
+  },
+  {
+    path: "/apps/kanban-board",
+    name: "KanbanBoardPage",
+    component: KanbanBoardPage,
+  },
+  {
+    path: "/apps/file-manager/my-drive",
+    name: "MyDrivePage",
+    component: MyDrivePage,
+  },
+  {
+    path: "/apps/file-manager/assets",
+    name: "AssetsPage",
+    component: AssetsPage,
+  },
+  {
+    path: "/apps/file-manager/projects",
+    name: "ProjectsPage",
+    component: ProjectsPage,
+  },
+  {
+    path: "/apps/file-manager/personal",
+    name: "PersonalPage",
+    component: PersonalPage,
+  },
+  {
+    path: "/apps/file-manager/applications",
+    name: "ApplicationsPage",
+    component: ApplicationsPage,
+  },
+  {
+    path: "/apps/file-manager/documents",
+    name: "DocumentsPage",
+    component: DocumentsPage,
+  },
+  {
+    path: "/apps/file-manager/media",
+    name: "MediaPage",
+    component: MediaPage,
+  },
+  {
+    path: "/apps/file-manager/recents",
+    name: "RecantsPage",
+    component: RecantsPage,
+  },
+  {
+    path: "/apps/file-manager/important",
+    name: "ImportantFilesPage",
+    component: ImportantFilesPage,
+  },
+  {
+    path: "/apps/file-manager/spam",
+    name: "SpamFilesPage",
+    component: SpamFilesPage,
+  },
+  {
+    path: "/apps/file-manager/trash",
+    name: "TrashFilesPage",
+    component: TrashFilesPage,
+  },
+  {
+    path: "/ecommerce/products-grid",
+    name: "ProductsGridPage",
+    component: ProductsGridPage,
+  },
+  {
+    path: "/ecommerce/products-list",
+    name: "ProductsListPage",
+    component: ProductsListPage,
+  },
+  {
+    path: "/ecommerce/product-details",
+    name: "ProductDetailsPage",
+    component: ProductDetailsPage,
+  },
+  {
+    path: "/ecommerce/create-product",
+    name: "CreateProductPage",
+    component: CreateProductPage,
+  },
+  {
+    path: "/ecommerce/edit-product",
+    name: "EditProductPage",
+    component: EditProductPage,
+  },
+  {
+    path: "/ecommerce/cart",
+    name: "CartPage",
+    component: CartPage,
+  },
+  {
+    path: "/ecommerce/checkout",
+    name: "CheckoutPage",
+    component: CheckoutPage,
+  },
+  {
+    path: "/ecommerce/orders",
+    name: "OrdersPage",
+    component: OrdersPage,
+  },
+  {
+    path: "/ecommerce/order-details",
+    name: "OrderDetailsPage",
+    component: OrderDetailsPage,
+  },
+  {
+    path: "/ecommerce/create-order",
+    name: "CreateOrderPage",
+    component: CreateOrderPage,
+  },
+  {
+    path: "/ecommerce/order-tracking",
+    name: "OrderTrackingPage",
+    component: OrderTrackingPage,
+  },
+  {
+    path: "/ecommerce/customers",
+    name: "CustomersPage",
+    component: CustomersPage,
+  },
+  {
+    path: "/ecommerce/customer-details",
+    name: "CustomerDetailsPage",
+    component: CustomerDetailsPage,
+  },
+  {
+    path: "/ecommerce/categories",
+    name: "CategoriesPage",
+    component: CategoriesPage,
+  },
+  {
+    path: "/ecommerce/sellers",
+    name: "SellersPage",
+    component: SellersPage,
+  },
+  {
+    path: "/ecommerce/seller-details",
+    name: "SellerDetailsPage",
+    component: SellerDetailsPage,
+  },
+  {
+    path: "/ecommerce/create-seller",
+    name: "CreateSellerPage",
+    component: CreateSellerPage,
+  },
+  {
+    path: "/ecommerce/reviews",
+    name: "ReviewsPage",
+    component: ReviewsPage,
+  },
+  {
+    path: "/ecommerce/refunds",
+    name: "RefundsPage",
+    component: RefundsPage,
+  },
+  {
+    path: "/crm/contacts",
+    name: "CRMContactsPage",
+    component: CRMContactsPage,
+  },
+  {
+    path: "/crm/customers",
+    name: "CRMCustomersPage",
+    component: CRMCustomersPage,
+  },
+  {
+    path: "/crm/leads",
+    name: "LeadsPage",
+    component: LeadsPage,
+  },
+  {
+    path: "/crm/deals",
+    name: "DealsPage",
+    component: DealsPage,
+  },
+  {
+    path: "/project-management/project-overview",
+    name: "ProjectOverviewPage",
+    component: ProjectOverviewPage,
+  },
+  {
+    path: "/project-management/project-list",
+    name: "ProjectsListPage",
+    component: ProjectsListPage,
+  },
+  {
+    path: "/project-management/create-project",
+    name: "CreateProjectPage",
+    component: CreateProjectPage,
+  },
+  {
+    path: "/project-management/clients",
+    name: "ClientsPage",
+    component: ClientsPage,
+  },
+  {
+    path: "/project-management/teams",
+    name: "TeamsPage",
+    component: TeamsPage,
+  },
+  {
+    path: "/project-management/kanban-board",
+    name: "KanbanBoardsPage",
+    component: KanbanBoardsPage,
+  },
+  {
+    path: "/project-management/user",
+    name: "UserPage",
+    component: UserPage,
+  },
+  {
+    path: "/lms/courses-list",
+    name: "CoursesListPage",
+    component: CoursesListPage,
+  },
+  {
+    path: "/lms/course-details",
+    name: "CourseDetailsPage",
+    component: CourseDetailsPage,
+  },
+  {
+    path: "/lms/lesson-preview",
+    name: "LessonPreviewPage",
+    component: LessonPreviewPage,
+  },
+  {
+    path: "/lms/create-course",
+    name: "CreateCoursePage",
+    component: CreateCoursePage,
+  },
+  {
+    path: "/lms/edit-course",
+    name: "EditCoursePage",
+    component: EditCoursePage,
+  },
+  {
+    path: "/lms/instructors",
+    name: "InstructorsPage",
+    component: InstructorsPage,
+  },
+  {
+    path: "/help-desk/tickets",
+    name: "TicketsPage",
+    component: TicketsPage,
+  },
+  {
+    path: "/help-desk/ticket-details",
+    name: "TicketDetailsPage",
+    component: TicketDetailsPage,
+  },
+  {
+    path: "/help-desk/agents",
+    name: "AgentsPage",
+    component: AgentsPage,
+  },
+  {
+    path: "/help-desk/reports",
+    name: "ReportsPage",
+    component: ReportsPage,
+  },
+  {
+    path: "/nft-marketplace/marketplace",
+    name: "MarketplacePage",
+    component: MarketplacePage,
+  },
+  {
+    path: "/nft-marketplace/explore-all",
+    name: "ExploreAllPage",
+    component: ExploreAllPage,
+  },
+  {
+    path: "/nft-marketplace/live-auction",
+    name: "LiveAuctionPage",
+    component: LiveAuctionPage,
+  },
+  {
+    path: "/nft-marketplace/nft-details",
+    name: "NFTDetailsPage",
+    component: NFTDetailsPage,
+  },
+  {
+    path: "/nft-marketplace/creators",
+    name: "CreatorsPage",
+    component: CreatorsPage,
+  },
+  {
+    path: "/nft-marketplace/creator-details",
+    name: "CreatorDetailsPage",
+    component: CreatorDetailsPage,
+  },
+  {
+    path: "/nft-marketplace/wallet-connect",
+    name: "WalletConnectPage",
+    component: WalletConnectPage,
+  },
+  {
+    path: "/real-estate/real-estate-customers",
+    name: "RealEstateCustomersPage",
+    component: RealEstateCustomersPage,
+  },
+  {
+    path: "/real-estate/property-list",
+    name: "PropertyListPage",
+    component: PropertyListPage,
+  },
+  {
+    path: "/real-estate/property-overview",
+    name: "PropertyOverviewPage",
+    component: PropertyOverviewPage,
+  },
+  {
+    path: "/real-estate/add-property",
+    name: "AddPropertyPage",
+    component: AddPropertyPage,
+  },
+  {
+    path: "/real-estate/agent-list",
+    name: "AgentlistPage",
+    component: AgentlistPage,
+  },
+  {
+    path: "/real-estate/agent-overview",
+    name: "AgentOverviewPage",
+    component: AgentOverviewPage,
+  },
+  {
+    path: "/real-estate/add-agent",
+    name: "AddAgentPage",
+    component: AddAgentPage,
+  },
+  {
+    path: "/finance/wallet",
+    name: "WalletPage",
+    component: WalletPage,
+  },
+  {
+    path: "/finance/transaction",
+    name: "TransactionPage",
+    component: TransactionPage,
+  },
+  {
+    path: "/doctor/patients-list",
+    name: "PatientsListPage",
+    component: PatientsListPage,
+  },
+  {
+    path: "/doctor/add-patient",
+    name: "AddPatientPage",
+    component: AddPatientPage,
+  },
+  {
+    path: "/doctor/patient-details",
+    name: "PatientDetailsPage",
+    component: PatientDetailsPage,
+  },
+  {
+    path: "/doctor/appointments",
+    name: "AppointmentsPage",
+    component: AppointmentsPage,
+  },
+  {
+    path: "/doctor/prescriptions",
+    name: "PrescriptionsPage",
+    component: PrescriptionsPage,
+  },
+  {
+    path: "/doctor/write-prescription",
+    name: "WritePrescriptionPage",
+    component: WritePrescriptionPage,
+  },
+  {
+    path: "/restaurant/menus",
+    name: "MenusPage",
+    component: MenusPage,
+  },
+  {
+    path: "/restaurant/dish-details",
+    name: "DishDetailsPage",
+    component: DishDetailsPage,
+  },
+  {
+    path: "/hotel/rooms-list",
+    name: "RoomsListPage",
+    component: RoomsListPage,
+  },
+  {
+    path: "/hotel/room-details",
+    name: "RoomDetailsPage",
+    component: RoomDetailsPage,
+  },
+  {
+    path: "/hotel/guests-list",
+    name: "GuestsListPage",
+    component: GuestsListPage,
+  },
+  {
+    path: "/real-estate-agent/properties",
+    name: "PropertiesPage",
+    component: PropertiesPage,
+  },
+  {
+    path: "/real-estate-agent/property-details",
+    name: "PropertyDetailsPage",
+    component: PropertyDetailsPage,
+  },
+  {
+    path: "/crypto-trader/transactions",
+    name: "TransactionsPage",
+    component: TransactionsPage,
+  },
+  {
+    path: "/crypto-trader/gainers-losers",
+    name: "GainersLosersPage",
+    component: GainersLosersPage,
+  },
+  {
+    path: "/crypto-trader/wallet-crypto",
+    name: "CTWalletPage",
+    component: CTWalletPage,
+  },
+  {
+    path: "/events",
+    name: "EventsPage",
+    component: EventsPage,
+  },
+  {
+    path: "/events/events-list",
+    name: "EventsListPage",
+    component: EventsListPage,
+  },
+  {
+    path: "/events/event-details",
+    name: "EventDetailsPage",
+    component: EventDetailsPage,
+  },
+  {
+    path: "/events/create-an-event",
+    name: "CreateAnEventPage",
+    component: CreateAnEventPage,
+  },
+  {
+    path: "/events/edit-an-event",
+    name: "EditAnEventPage",
+    component: EditAnEventPage,
+  },
+  {
+    path: "/social/profile",
+    name: "ProfilePage",
+    component: ProfilePage,
+  },
+  {
+    path: "/social/settings",
+    name: "SettingsPage",
+    component: SettingsPage,
+  },
+  {
+    path: "/invoices/invoice-list",
+    name: "InvoicesPage",
+    component: InvoicesPage,
+  },
+  {
+    path: "/invoices/invoice-details",
+    name: "InvoiceDetailsPage",
+    component: InvoiceDetailsPage,
+  },
+  {
+    path: "/invoices/create-invoice",
+    name: "CreateInvoicePage",
+    component: CreateInvoicePage,
+  },
+  {
+    path: "/invoices/edit-invoice",
+    name: "EditInvoicePage",
+    component: EditInvoicePage,
+  },
+  {
+    path: "/users/team-members",
+    name: "TeamMembersPage",
+    component: TeamMembersPage,
+  },
+  {
+    path: "/profile/user-profile",
+    name: "UserProfilePage",
+    component: UserProfilePage,
+  },
+  {
+    path: "/profile/teams",
+    name: "UserTeamPage",
+    component: UserTeamPage,
+  },
+  {
+    path: "/profile/my-projects",
+    name: "UserProjectsPage",
+    component: UserProjectsPage,
+  },
+  {
+    path: "/starter",
+    name: "StarterPage",
+    component: StarterPage,
+  },
+  {
+    path: "/icons/material-icons",
+    name: "MaterialSymbolsPage",
+    component: MaterialSymbolsPage,
+  },
+  {
+    path: "/icons/feathericon",
+    name: "FeatherIconPage",
+    component: FeatherIconPage,
+  },
+  {
+    path: "/icons/remixicon",
+    name: "RemixIconPage",
+    component: RemixIconPage,
+  },
+  {
+    path: "/ui-elements/alerts",
+    name: "AlertsPage",
+    component: AlertsPage,
+  },
+  {
+    path: "/ui-elements/avatar",
+    name: "AvatarPage",
+    component: AvatarPage,
+  },
+  {
+    path: "/ui-elements/buttons",
+    name: "ButtonsPage",
+    component: ButtonsPage,
+  },
+  {
+    path: "/ui-elements/badges",
+    name: "BadgesPage",
+    component: BadgesPage,
+  },
+  {
+    path: "/ui-elements/cards",
+    name: "CardsPage",
+    component: CardsPage,
+  },
+  {
+    path: "/ui-elements/carousels",
+    name: "CarouselsPage",
+    component: CarouselsPage,
+  },
+  {
+    path: "/ui-elements/dropdowns",
+    name: "DropdownsPage",
+    component: DropdownsPage,
+  },
+  {
+    path: "/ui-elements/grids",
+    name: "GridsPage",
+    component: GridsPage,
+  },
+  {
+    path: "/ui-elements/images",
+    name: "ImagesPage",
+    component: ImagesPage,
+  },
+  {
+    path: "/ui-elements/list",
+    name: "ListPage",
+    component: ListPage,
+  },
+  {
+    path: "/ui-elements/modals",
+    name: "ModalsPage",
+    component: ModalsPage,
+  },
+  {
+    path: "/ui-elements/navs",
+    name: "NavsPage",
+    component: NavsPage,
+  },
+  {
+    path: "/ui-elements/paginations",
+    name: "PaginationsPage",
+    component: PaginationsPage,
+  },
+  {
+    path: "/ui-elements/popover-tooltips",
+    name: "PopoverTooltipsPage",
+    component: PopoverTooltipsPage,
+  },
+  {
+    path: "/ui-elements/progress",
+    name: "ProgressPage",
+    component: ProgressPage,
+  },
+  {
+    path: "/ui-elements/spinners",
+    name: "SpinnersPage",
+    component: SpinnersPage,
+  },
+  {
+    path: "/ui-elements/tabs",
+    name: "TabsPage",
+    component: TabsPage,
+  },
+  {
+    path: "/ui-elements/accordions",
+    name: "AccordionsPage",
+    component: AccordionsPage,
+  },
+  {
+    path: "/ui-elements/date-time-picker",
+    name: "DateTimePickerPage",
+    component: DateTimePickerPage,
+  },
+  {
+    path: "/ui-elements/videos",
+    name: "VideosPage",
+    component: VideosPage,
+  },
+  {
+    path: "/tables/basic-table",
+    name: "BasicTablePage",
+    component: BasicTablePage,
+  },
+  {
+    path: "/tables/data-tables",
+    name: "DataTablePage",
+    component: DataTablePage,
+  },
+  {
+    path: "/forms/basic-elements",
+    name: "BasicElementsPage",
+    component: BasicElementsPage,
+  },
+  {
+    path: "/forms/advanced-elements",
+    name: "AdvancedElementsPage",
+    component: AdvancedElementsPage,
+  },
+  {
+    path: "/forms/validation",
+    name: "ValidationPage",
+    component: ValidationPage,
+  },
+  {
+    path: "/forms/wizard",
+    name: "WizardPage",
+    component: WizardPage,
+  },
+  {
+    path: "/forms/editors",
+    name: "EditorsPage",
+    component: EditorsPage,
+  },
+  {
+    path: "/forms/file-upload",
+    name: "FileUploadPage",
+    component: FileUploadPage,
+  },
+  {
+    path: "/apex-charts",
+    name: "ApexChartsPage",
+    component: ApexChartsPage,
+  },
+  {
+    path: "/authentication/login",
+    name: "LoginPage",
+    component: LoginPage,
+    meta: {
+      guest: true,
+    },
+  },
+  {
+    path: "/authentication/register",
+    name: "RegisterPage",
+    component: RegisterPage,
+  },
+  {
+    path: "/authentication/reset-password",
+    name: "ResetPasswordPage",
+    component: ResetPasswordPage,
+  },
+  {
+    path: "/authentication/forget-password",
+    name: "ForgetPasswordPage",
+    component: ForgetPasswordPage,
+  },
+  {
+    path: "/authentication/lock-screen",
+    name: "LockScreenPage",
+    component: LockScreenPage,
+  },
+  {
+    path: "/authentication/logout",
+    name: "LogOutPage",
+    component: LogOutPage,
+  },
+  {
+    path: "/authentication/confirm-mail",
+    name: "ConfirmMailPage",
+    component: ConfirmMailPage,
+  },
+  {
+    path: "/extra-pages/pricing-plan",
+    name: "PricingPage",
+    component: PricingPage,
+  },
+  {
+    path: "/extra-pages/faq",
+    name: "FAQsPage",
+    component: FAQsPage,
+  },
+  {
+    path: "/extra-pages/timeline",
+    name: "TimelinePage",
+    component: TimelinePage,
+  },
+  {
+    path: "/extra-pages/animation",
+    name: "AnimationPage",
+    component: AnimationPage,
+  },
+  {
+    path: "/extra-pages/clip-board",
+    name: "ClipBoardPage",
+    component: ClipBoardPage,
+  },
+  {
+    path: "/extra-pages/drag-drop",
+    name: "DragDropPage",
+    component: DragDropPage,
+  },
+  {
+    path: "/extra-pages/range-slider",
+    name: "RangeSliderPage",
+    component: RangeSliderPage,
+  },
+  {
+    path: "/extra-pages/ratings",
+    name: "RatingsPage",
+    component: RatingsPage,
+  },
+  {
+    path: "/extra-pages/toasts",
+    name: "ToastsPage",
+    component: ToastsPage,
+  },
+  {
+    path: "/extra-pages/check-radio",
+    name: "CheckRadioPage",
+    component: CheckRadioPage,
+  },
+  {
+    path: "/extra-pages/select",
+    name: "SelectPage",
+    component: SelectPage,
+  },
+  {
+    path: "/extra-pages/scrollbar",
+    name: "ScrollbarPage",
+    component: ScrollbarPage,
+  },
+  {
+    path: "/extra-pages/typography",
+    name: "TypographyPage",
+    component: TypographyPage,
+  },
+  {
+    path: "/extra-pages/gallery",
+    name: "GalleryPage",
+    component: GalleryPage,
+  },
+  {
+    path: "/extra-pages/search",
+    name: "SearchPage",
+    component: SearchPage,
+  },
+  {
+    path: "/extra-pages/blank-page",
+    name: "BlankPage",
+    component: BlankPage,
+  },
+  {
+    path: "/error/internal-error",
+    name: "InternalErrorPage",
+    component: InternalErrorPage,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/403",
+    name: "ForbiddenPage",
+    component: ForbiddenPage,
+  },
+  {
+    path: "/widgets",
+    name: "WidgetsPage",
+    component: WidgetsPage,
+  },
+  {
+    path: "/google-map",
+    name: "GoogleMapPage",
+    component: GoogleMapPage,
+  },
+  {
+    path: "/notification",
+    name: "NotificationPage",
+    component: NotificationPage,
+  },
+  {
+    path: "/members",
+    name: "MemberPage",
+    component: MemberPage,
+  },
+  {
+    path: "/my-profile",
+    name: "MyProfilePage",
+    component: MyProfilePage,
+  },
+  {
+    path: "/settings/account-settings",
+    name: "AccountSettingsPage",
+    component: AccountSettingsPage,
+  },
+  {
+    path: "/settings/change-password",
+    name: "ChangePasswordPage",
+    component: ChangePasswordPage,
+  },
+  {
+    path: "/settings/connections",
+    name: "ConnectionsPage",
+    component: ConnectionsPage,
+  },
+  {
+    path: "/settings/privacy-policy",
+    name: "PrivacyPolicyPage",
+    component: PrivacyPolicyPage,
+  },
+  {
+    path: "/settings/terms-conditions",
+    name: "TermsConditionsPage",
+    component: TermsConditionsPage,
+  },
+  { path: "/:pathMatch(.*)*", name: "ErrorPage", component: ErrorPage },
+];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { left: 0, top: 0 }
+  history: createWebHistory(),
+  routes,
+  linkExactActiveClass: "active",
+  scrollBehavior() {
+    return { top: 0, behavior: "smooth" };
   },
-  routes: [
-    // Halaman Error
-    {
-      path: '/error-403',
-      name: '403 Error',
-      component: () => import('../views/Errors/FourZeroThree.vue'),
-      meta: {
-        title: '403: Akses Ditolak',
-      },
-    },
-    {
-      path: '/error-404',
-      name: '404 Error',
-      component: () => import('../views/Errors/FourZeroFour.vue'),
-      meta: {
-        title: '404 Error Page',
-      },
-    },
-    {
-      path: '/error-503',
-      name: '503 Error',
-      component: () => import('../views/Errors/FiveZeroThree.vue'),
-      meta: {
-        title: '503: AKSES DITOLAK',
-      },
-    },
-    {
-      path: '/error-500',
-      name: '500 Error',
-      component: () => import('../views/Errors/FiveZeroZero.vue'),
-      meta: {
-        title: '500 Error Page',
-      },
-    },
-    // Halaman Users
-    {
-      path: '/users',
-      name: 'Users',
-      component: () => import('../views/Users/Users.vue'),
-      meta: {
-        title: 'Pengguna',
-        permission: 'users.read',
-      },
-    },
-    // Halaman Roles
-    {
-      path: '/roles',
-      name: 'Roles',
-      component: () => import('@/views/Roles/Roles.vue'),
-      meta: {
-        title: 'Roles',
-        permission: 'roles.read',
-      },
-    },
-    {
-      path: '/',
-      name: 'Ecommerce',
-      component: () => import('../views/Ecommerce.vue'),
-      meta: {
-        title: 'eCommerce Dashboard',
-      },
-    },
-    {
-      path: '/analytics',
-      name: 'Analytics',
-      component: () => import('../views/Analytics.vue'),
-      meta: {
-        title: 'Analytics Dashboard',
-      },
-    },
-    {
-      path: '/marketing',
-      name: 'Marketing',
-      component: () => import('../views/Marketing.vue'),
-      meta: {
-        title: 'Marketing Dashboard',
-      },
-    },
-    {
-      path: '/crm',
-      name: 'Crm',
-      component: () => import('../views/Crm.vue'),
-      meta: {
-        title: 'CRM Dashboard',
-      },
-    },
-    {
-      path: '/stocks',
-      name: 'Stocks',
-      component: () => import('../views/Stocks.vue'),
-      meta: {
-        title: 'Stocks Dashboard',
-      },
-    },
-    {
-      path: '/saas',
-      name: 'SaaS',
-      component: () => import('../views/Saas.vue'),
-      meta: {
-        title: 'SaaS Dashboard',
-      },
-    },
-    {
-      path: '/logistics',
-      name: 'Logistics',
-      component: () => import('../views/Logistics.vue'),
-      meta: {
-        title: 'Logistics Dashboard',
-      },
-    },
-    {
-      path: '/sales',
-      name: 'Sales',
-      component: () => import('../views/Sales.vue'),
-      meta: {
-        title: 'Sales Dashboard',
-      },
-    },
-    {
-      path: '/ai',
-      name: 'AI',
-      component: () => import('../views/AI.vue'),
-      meta: {
-        title: 'AI Dashboard',
-      },
-    },
-    {
-      path: '/finance',
-      name: 'Finance',
-      component: () => import('../views/Finance.vue'),
-      meta: {
-        title: 'Finance Dashboard',
-      },
-    },
-    {
-      path: '/text-generator',
-      name: 'Text Generator',
-      component: () => import('../views/Ai/TextGenerator.vue'),
-      meta: {
-        title: 'AI Text Generator',
-      },
-    },
-    {
-      path: '/code-generator',
-      name: 'Code Generator',
-      component: () => import('../views/Ai/CodeGenerator.vue'),
-      meta: {
-        title: 'AI Code Generator',
-      },
-    },
-    {
-      path: '/image-generator',
-      name: 'Image Generator',
-      component: () => import('../views/Ai/ImageGenerator.vue'),
-      meta: {
-        title: 'AI Image Generator',
-      },
-    },
-    {
-      path: '/video-generator',
-      name: 'Video Generator',
-      component: () => import('../views/Ai/VideoGenerator.vue'),
-      meta: {
-        title: 'AI Video Generator',
-      },
-    },
-    {
-      path: '/ai-settings',
-      name: 'AI Settings',
-      component: () => import('../views/Ai/AISettings.vue'),
-      meta: {
-        title: 'AI Settings',
-      },
-    },
-    {
-      path: '/products-list',
-      name: 'Products',
-      component: () => import('../views/Ecommerce/Products.vue'),
-      meta: {
-        title: 'E-commerce Products',
-      },
-    },
-    {
-      path: '/add-product',
-      name: 'Add Product',
-      component: () => import('../views/Ecommerce/AddProduct.vue'),
-      meta: {
-        title: 'E-commerce Add Product',
-      },
-    },
-    {
-      path: '/billing',
-      name: 'Billing',
-      component: () => import('../views/Ecommerce/Billing.vue'),
-      meta: {
-        title: 'E-commerce Billing',
-      },
-    },
-    {
-      path: '/invoices',
-      name: 'Invoices',
-      component: () => import('../views/Ecommerce/Invoices.vue'),
-      meta: {
-        title: 'E-commerce Invoices',
-      },
-    },
-    {
-      path: '/single-invoice',
-      name: 'Single Invoice',
-      component: () => import('../views/Ecommerce/SingleInvoice.vue'),
-      meta: {
-        title: 'E-commerce Single Invoice',
-      },
-    },
-    {
-      path: '/create-invoice',
-      name: 'Create Invoice',
-      component: () => import('../views/Ecommerce/CreateInvoice.vue'),
-      meta: {
-        title: 'E-commerce Create Invoice',
-      },
-    },
-    {
-      path: '/transactions',
-      name: 'Transactions',
-      component: () => import('../views/Ecommerce/Transactions.vue'),
-      meta: {
-        title: 'E-commerce Transactions',
-      },
-    },
-    {
-      path: '/single-transaction',
-      name: 'Single Transaction',
-      component: () => import('../views/Ecommerce/SingleTransaction.vue'),
-      meta: {
-        title: 'E-commerce Single Transaction',
-      },
-    },
-    {
-      path: '/calendar',
-      name: 'Calendar',
-      component: () => import('../views/Others/Calendar.vue'),
-      meta: {
-        title: 'Calendar',
-      },
-    },
-    {
-      path: '/profile',
-      name: 'Profile',
-      component: () => import('../views/Others/UserProfile.vue'),
-      meta: {
-        title: 'Profile',
-      },
-    },
-    {
-      path: '/task-list',
-      name: 'Task List',
-      component: () => import('../views/Task/TaskList.vue'),
-      meta: {
-        title: 'Task List',
-      },
-    },
-    {
-      path: '/task-kanban',
-      name: 'Task Kanban',
-      component: () => import('../views/Task/TaskKanban.vue'),
-      meta: {
-        title: 'Task Kanban',
-      },
-    },
-    {
-      path: '/form-elements',
-      name: 'Form Elements',
-      component: () => import('../views/Forms/FormElements.vue'),
-      meta: {
-        title: 'Form Elements',
-      },
-    },
-    {
-      path: '/form-layout',
-      name: 'Form Layout',
-      component: () => import('../views/Forms/FormLayout.vue'),
-      meta: {
-        title: 'Form Layout',
-      },
-    },
-    {
-      path: '/basic-tables',
-      name: 'Basic Tables',
-      component: () => import('../views/Tables/BasicTables.vue'),
-      meta: {
-        title: 'Basic Tables',
-      },
-    },
-    {
-      path: '/data-tables',
-      name: 'Data Tables',
-      component: () => import('../views/Tables/DataTables.vue'),
-      meta: {
-        title: 'Data Tables',
-      },
-    },
-    {
-      path: '/chat',
-      name: 'Chat',
-      component: () => import('../views/Others/Chat.vue'),
-      meta: {
-        title: 'Chats',
-      },
-    },
-    {
-      path: '/support-tickets',
-      name: 'Ticket List',
-      component: () => import('../views/Support/SupportList.vue'),
-      meta: {
-        title: 'Ticket List',
-      },
-    },
-    {
-      path: '/support-ticket-reply',
-      name: 'Ticket Reply',
-      component: () => import('../views/Support/SupportReply.vue'),
-      meta: {
-        title: 'Ticket Reply',
-      },
-    },
-    {
-      path: '/inbox',
-      name: 'Inbox',
-      component: () => import('../views/Email/EmailInboxPage.vue'),
-      meta: {
-        title: 'Inbox',
-      },
-    },
-    {
-      path: '/inbox-details',
-      name: 'Details',
-      component: () => import('../views/Email/EmailDetailsPage.vue'),
-      meta: {
-        title: 'Inbox Details',
-      },
-    },
-    {
-      path: '/invoice',
-      name: 'Invoice',
-      component: () => import('../views/Others/Invoice.vue'),
-      meta: {
-        title: 'E-commerce Invoice',
-      },
-    },
-    {
-      path: '/line-chart',
-      name: 'Line Chart',
-      component: () => import('../views/Chart/LineChart/LineChart.vue'),
-      meta: {
-        title: 'Line Chart',
-      },
-    },
-    {
-      path: '/bar-chart',
-      name: 'Bar Chart',
-      component: () => import('../views/Chart/BarChart/BarChart.vue'),
-      meta: {
-        title: 'Bar Chart',
-      },
-    },
-    {
-      path: '/pie-chart',
-      name: 'Doughnut Chart',
-      component: () => import('../views/Chart/PieChart/PieChart.vue'),
-      meta: {
-        title: 'Doughnut Chart',
-      },
-    },
-    {
-      path: '/radar-chart',
-      name: 'Radar Chart',
-      component: () => import('../views/Chart/RadarChart/RadarChart.vue'),
-      meta: {
-        title: 'Radar Chart',
-      },
-    },
-    {
-      path: '/radial-chart',
-      name: 'Radial Chart',
-      component: () => import('../views/Chart/RadialChart/RadialChart.vue'),
-      meta: {
-        title: 'Radial Chart',
-      },
-    },
-    {
-      path: '/vector-maps',
-      name: 'Vector Maps',
-      component: () => import('../views/Pages/VectorMaps.vue'),
-      meta: {
-        title: 'Vector Maps',
-      },
-    },
-    {
-      path: '/maps',
-      name: 'Maps',
-      component: () => import('../views/Pages/Maps.vue'),
-      meta: {
-        title: 'Maps',
-      },
-    },
-    {
-      path: '/alerts',
-      name: 'Alerts',
-      component: () => import('../views/UiElements/Alerts.vue'),
-      meta: {
-        title: 'Alerts',
-      },
-    },
-    {
-      path: '/avatars',
-      name: 'Avatars',
-      component: () => import('../views/UiElements/Avatars.vue'),
-      meta: {
-        title: 'Avatars',
-      },
-    },
-    {
-      path: '/badge',
-      name: 'Badge',
-      component: () => import('../views/UiElements/Badges.vue'),
-      meta: {
-        title: 'Badge',
-      },
-    },
-    {
-      path: '/breadcrumb',
-      name: 'Breadcrumb',
-      component: () => import('../views/UiElements/Breadcrumbs.vue'),
-      meta: {
-        title: 'Breadcrumbs',
-      },
-    },
-    {
-      path: '/buttons',
-      name: 'Buttons',
-      component: () => import('../views/UiElements/Buttons.vue'),
-      meta: {
-        title: 'Buttons',
-      },
-    },
-    {
-      path: '/buttons-group',
-      name: 'Buttons Group',
-      component: () => import('../views/UiElements/ButtonsGroup.vue'),
-      meta: {
-        title: 'Buttons Group',
-      },
-    },
-    {
-      path: '/cards',
-      name: 'Cards',
-      component: () => import('../views/UiElements/Cards.vue'),
-      meta: {
-        title: 'Cards',
-      },
-    },
-    {
-      path: '/carousel',
-      name: 'Carousel',
-      component: () => import('../views/UiElements/Carousel.vue'),
-      meta: {
-        title: 'Carousel',
-      },
-    },
-    {
-      path: '/dropdowns',
-      name: 'Dropdowns',
-      component: () => import('../views/UiElements/Dropdowns.vue'),
-      meta: {
-        title: 'Dropdowns',
-      },
-    },
-    {
-      path: '/images',
-      name: 'Images',
-      component: () => import('../views/UiElements/Images.vue'),
-      meta: {
-        title: 'Images',
-      },
-    },
-    {
-      path: '/links',
-      name: 'Links',
-      component: () => import('../views/UiElements/Links.vue'),
-      meta: {
-        title: 'Links',
-      },
-    },
-    {
-      path: '/list',
-      name: 'List',
-      component: () => import('../views/UiElements/List.vue'),
-      meta: {
-        title: 'List',
-      },
-    },
-    {
-      path: '/modals',
-      name: 'Modals',
-      component: () => import('../views/UiElements/Modals.vue'),
-      meta: {
-        title: 'Modals',
-      },
-    },
-    {
-      path: '/notifications',
-      name: 'Notifications',
-      component: () => import('../views/UiElements/Notifications.vue'),
-      meta: {
-        title: 'Notifications',
-      },
-    },
-    {
-      path: '/pagination',
-      name: 'Pagination',
-      component: () => import('../views/UiElements/Pagination.vue'),
-      meta: {
-        title: 'Pagination',
-      },
-    },
-    {
-      path: '/popovers',
-      name: 'Popovers',
-      component: () => import('../views/UiElements/Popovers.vue'),
-      meta: {
-        title: 'Popovers',
-      },
-    },
-    {
-      path: '/progress-bar',
-      name: 'Progressbar',
-      component: () => import('../views/UiElements/Progressbar.vue'),
-      meta: {
-        title: 'Progressbar',
-      },
-    },
-    {
-      path: '/ribbons',
-      name: 'Ribbons',
-      component: () => import('../views/UiElements/Ribbons.vue'),
-      meta: {
-        title: 'Ribbon',
-      },
-    },
-    {
-      path: '/spinners',
-      name: 'Spinners',
-      component: () => import('../views/UiElements/Spinners.vue'),
-      meta: {
-        title: 'Spinners',
-      },
-    },
-    {
-      path: '/tabs',
-      name: 'Tabs',
-      component: () => import('../views/UiElements/Tabs.vue'),
-      meta: {
-        title: 'Tabs',
-      },
-    },
-    {
-      path: '/tooltips',
-      name: 'Tooltips',
-      component: () => import('../views/UiElements/Tooltips.vue'),
-      meta: {
-        title: 'Tooltip',
-      },
-    },
-    {
-      path: '/videos',
-      name: 'Videos',
-      component: () => import('../views/UiElements/Videos.vue'),
-      meta: {
-        title: 'Videos',
-      },
-    },
-    {
-      path: '/file-manager',
-      name: 'File Manager',
-      component: () => import('../views/Pages/FileManager.vue'),
-      meta: {
-        title: 'File Manager Page',
-      },
-    },
-    {
-      path: '/pricing-tables',
-      name: 'Pricing Tables',
-      component: () => import('../views/Pages/PricingTables.vue'),
-      meta: {
-        title: 'Pricing Tables Page',
-      },
-    },
-    {
-      path: '/faq',
-      name: 'Faq',
-      component: () => import('../views/Pages/Faq.vue'),
-      meta: {
-        title: 'FAQ Page',
-      },
-    },
-    {
-      path: '/api-keys',
-      name: 'API Keys',
-      component: () => import('../views/Pages/ApiKeys.vue'),
-      meta: {
-        title: 'API Keys Page',
-      },
-    },
-    {
-      path: '/integrations',
-      name: 'Integrations',
-      component: () => import('../views/Pages/Integrations.vue'),
-      meta: {
-        title: 'Integrations Page',
-      },
-    },
-    {
-      path: '/blank',
-      name: 'Blank',
-      component: () => import('../views/Pages/BlankPage.vue'),
-      meta: {
-        title: 'Blank Page',
-      },
-    },
-    {
-      path: '/success',
-      name: 'Success',
-      component: () => import('../views/Others/Success.vue'),
-      meta: {
-        title: 'Success Page',
-      },
-    },
-    {
-      path: '/:pathMatch(.*)*',
-      component: () => import('../views/Errors/FourZeroFour.vue'),
-      meta: {
-        title: '500 Error Page',
-      },
-    },
-    {
-      path: '/maintenance',
-      name: 'Maintenance',
-      component: () => import('../views/Others/Maintenance.vue'),
-      meta: {
-        title: 'Maintenance Page',
-      },
-    },
-    {
-      path: '/coming-soon',
-      name: 'Coming Soon',
-      component: () => import('../views/Others/ComingSoon.vue'),
-      meta: {
-        title: 'Coming Soon Page',
-      },
-    },
-    {
-      path: '/signin',
-      name: 'Signin',
-      component: () => import('../views/Auth/Signin.vue'),
-      meta: {
-        title: 'Sign In',
-        requiresAuth: false,
-      },
-    },
-    {
-      path: '/signup',
-      name: 'Signup',
-      component: () => import('../views/Auth/Signup.vue'),
-      meta: {
-        title: 'Sign Up',
-        requiresAuth: false,
-      },
-    },
-    {
-      path: '/two-step-verification',
-      name: 'Two Step Verification',
-      component: () => import('../views/Auth/TwoStepVerification.vue'),
-      meta: {
-        title: 'Two Step Verification',
-        requiresAuth: false,
-      },
-    },
-    {
-      path: '/reset-password',
-      name: 'Reset Password',
-      component: () => import('../views/Auth/ResetPassword.vue'),
-      meta: {
-        title: 'Reset Password',
-        requiresAuth: false,
-      },
-    },
-    {
-      path: '/layout-one',
-      name: 'Layout One',
-      component: () => import('../views/Layouts/LayoutOne.vue'),
-      meta: {
-        title: 'Layout One',
-      },
-    },
-    {
-      path: '/layout-two',
-      name: 'Layout Two',
-      component: () => import('../views/Layouts/LayoutTwo.vue'),
-      meta: {
-        title: 'Layout Two',
-      },
-    },
-    {
-      path: '/layout-three',
-      name: 'Layout Three',
-      component: () => import('../views/Layouts/LayoutThree.vue'),
-      meta: {
-        title: 'Layout Three',
-      },
-    },
-    {
-      path: '/layout-four',
-      name: 'Layout Four',
-      component: () => import('../views/Layouts/LayoutFour.vue'),
-      meta: {
-        title: 'Layout Four',
-      },
-    },
-    {
-      path: '/layout-five',
-      name: 'Layout Five',
-      component: () => import('../views/Layouts/LayoutFive.vue'),
-      meta: {
-        title: 'Layout Five',
-      },
-    },
-    {
-      path: '/layout-six',
-      name: 'Layout Six',
-      component: () => import('../views/Layouts/LayoutSix.vue'),
-      meta: {
-        title: 'Layout 6',
-      },
-    },
-  ],
-})
-
-export default router
+});
 
 router.beforeEach(async (to) => {
-  document.title = `NLLA | ${to.meta.title ?? 'CMS'}`
+  const auth = useAuthStore();
 
-  const authStore = useAuthStore()
+  // Route yang membutuhkan login
+  if (to.meta.requiresAuth) {
+    const authenticated = await auth.initializeAuth();
 
-  // Public route
-  if (to.meta.requiresAuth === false) {
-    return true
-  }
-
-  // Tidak memiliki token
-  if (!authStore.accessToken) {
-    return {
-      name: 'Signin',
-      query: {
-        redirect: to.fullPath,
-      },
-    }
-  }
-
-  // Token ada tetapi user belum dimuat
-  if (!authStore.user) {
-    try {
-      await authStore.fetchMe()
-    } catch (error) {
-      console.error('Session tidak valid:', error)
-
-      authStore.logout()
-
+    if (!authenticated) {
       return {
-        name: 'Signin',
+        path: "/authentication/login",
         query: {
           redirect: to.fullPath,
         },
-      }
+      };
     }
   }
 
-  // Cek permission
-  if (to.meta.permission && !authStore.hasPermission(to.meta.permission as string)) {
-    return {
-      name: '403 Error',
+  // User yang sudah login tidak boleh kembali ke login
+  if (to.meta.guest && auth.isAuthenticated) {
+    return "/dashboard";
+  }
+
+  // Permission guard
+  if (to.meta.permission) {
+    const hasPermission = auth.hasPermission(
+      to.meta.permission,
+    );
+
+    if (!hasPermission) {
+      return "/403";
     }
   }
 
-  return true
-})
+  return true;
+});
+
+
+export default router;

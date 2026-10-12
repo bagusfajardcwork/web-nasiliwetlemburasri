@@ -1,18 +1,21 @@
-import { defineStore } from 'pinia'
-
-import { getMe, login as loginService } from '../services/auth.service'
-
-import type { AuthUserDetail, LoginPayload } from '../types/auth'
+import { defineStore } from "pinia";
+import { Service } from "@/services";
+import type {
+  AuthUser,
+  LoginPayload,
+  LoginResponse,
+  MeResponse,
+} from "@/types/auth";
 
 interface AuthState {
-  accessToken: string | null
-  user: AuthUserDetail | null
-  loading: boolean
+  accessToken: string | null;
+  user: AuthUser | null;
+  loading: boolean;
 }
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
-    accessToken: localStorage.getItem('accessToken'),
+    accessToken: localStorage.getItem("accessToken"),
     user: null,
     loading: false,
   }),
@@ -27,44 +30,64 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(payload: LoginPayload) {
-      this.loading = true
+      this.loading = true;
 
       try {
-        const response = await loginService(payload)
+        const response = await Service.post<LoginResponse>(
+          "/auth/login",
+          payload,
+        );
 
-        this.accessToken = response.data.accessToken
+        const token = response.data.data.accessToken;
 
-        localStorage.setItem('accessToken', response.data.accessToken)
+        this.accessToken = token;
 
-        await this.fetchMe()
+        localStorage.setItem("accessToken", token);
 
-        return response
+        await this.fetchMe();
+
+        return response.data;
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
 
     async fetchMe() {
-      const response = await getMe()
+      const response = await Service.get<MeResponse>("/auth/me");
 
-      this.user = response.data
+      this.user = response.data.data;
 
-      return response
+      return this.user;
     },
 
     logout() {
-      this.accessToken = null
-      this.user = null
+      this.accessToken = null;
+      this.user = null;
 
-      localStorage.removeItem('accessToken')
+      localStorage.removeItem("accessToken");
     },
 
     hasPermission(permission: string) {
-      return this.permissions.includes(permission)
+      return this.permissions.includes(permission);
     },
 
     hasRole(role: string) {
-      return this.roles.some((item) => item.name === role)
+      return this.roles.some((item) => item.name === role);
     },
+
+    async initializeAuth() {
+      if (!this.accessToken) {
+        return false;
+      }
+
+      try {
+        await this.fetchMe();
+        return true;
+      } catch (error) {
+        this.logout();
+        return false;
+      }
+    },
+
   },
-})
+});

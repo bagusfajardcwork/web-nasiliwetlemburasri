@@ -1,0 +1,225 @@
+/* Only Header dark Area Style
+============================================*/
+.header-dark {
+  .header-area {
+    background-color: $dark-card-bg !important;
+
+    .left-header-content {
+      ul {
+        li {
+          &.logo {
+            .logo-white {
+              display: block !important;
+            }
+            .logo-black {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+    .navbar-area {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      .accordion {
+        .accordion-item {
+          color: var(--whiteColor);
+
+          .accordion-button {
+            color: var(--whiteColor);
+
+            .trezo-badge {
+              background-color: rgba(255, 255, 255, 0.08);
+
+              &.style-two {
+                background-color: rgba(255, 255, 255, 0.08);
+              }
+              &.style-three {
+                background-color: rgba(255, 255, 255, 0.08);
+              }
+            }
+            &:hover {
+              color: var(--whiteColor);
+              background-color: #15203c;
+
+              i {
+                color: var(--whiteColor);
+              }
+              &::before {
+                color: var(--whiteColor);
+              }
+            }
+          }
+          &:has(.active) .accordion-button {
+            color: var(--whiteColor);
+            background-color: #15203c;
+
+            i {
+              color: var(--whiteColor);
+            }
+            &::before {
+              color: var(--whiteColor);
+            }
+          }
+          .accordion-body {
+            background-color: #0c1427;
+
+            .accordion-button {
+              &:hover,
+              &.active {
+                background-color: #15203c;
+              }
+              .trezo-badge {
+                background-color: rgba(255, 255, 255, 0.08);
+
+                &.style-two {
+                  background-color: rgba(255, 255, 255, 0.08);
+                }
+                &.style-three {
+                  background-color: rgba(255, 255, 255, 0.08);
+                }
+              }
+            }
+            .sidebar-sub-menu {
+              .sidemenu-item {
+                .sidemenu-link {
+                  &:hover,
+                  &.active {
+                    background-color: #15203c;
+                  }
+                  .trezo-badge {
+                    background: rgba(255, 255, 255, 0.08);
+
+                    &::before {
+                      background: rgba(255, 255, 255, 0.08);
+                    }
+                    &.style-two {
+                      background: rgba(255, 255, 255, 0.08);
+
+                      &::before {
+                        background: rgba(255, 255, 255, 0.08);
+                      }
+                    }
+                    &.style-three {
+                      background: rgba(255, 255, 255, 0.08);
+
+                      &::before {
+                        background: rgba(255, 255, 255, 0.08);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .left-header-content {
+    ul {
+      li {
+        .notifications {
+          &.dropdown {
+            .dropdown-menu {
+              background-color: $dark-card-bg;
+              .dropdown-item {
+                span {
+                  color: $dark-body-color;
+                }
+              }
+            }
+          }
+        }
+        .header-burger-menu {
+          .material-symbols-outlined {
+            color: $dark-body-color;
+          }
+        }
+        .src-form {
+          .form-control {
+            background-color: $dark-input-bg;
+            border-color: $dark-input-bg;
+            color: $white !important;
+            &:focus {
+              border-color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+  .right-header-content {
+    .header-right-item {
+      .notifications {
+        &.dropdown {
+          .dropdown-menu {
+            background-color: $dark-body-bg !important;
+            .notification-menu {
+              border-color: #1b212a !important;
+            }
+            .title {
+              color: $white !important;
+              span {
+                color: $white !important;
+              }
+              button {
+                color: $white !important;
+              }
+            }
+            .dropdown-item {
+              span {
+                transition: $transition;
+                color: $white !important;
+              }
+              p {
+                span {
+                  color: $white !important;
+                }
+              }
+              &:hover {
+                background-color: $dark-card-bg !important;
+              }
+            }
+            .view-all {
+              border-color: $dark-border;
+              span {
+                color: $white !important;
+              }
+            }
+          }
+        }
+      }
+      .admin-profile {
+        .dropdown-menu {
+          background-color: $dark-body-bg !important;
+          .admin-link {
+            border-color: $dark-border;
+          }
+        }
+        h3 {
+          color: $white;
+        }
+        span {
+          color: $dark-body-color;
+        }
+        i {
+          color: $dark-body-color !important;
+        }
+      }
+      .theme-settings-btn {
+        i {
+          color: $dark-body-color;
+        }
+      }
+    }
+  }
+  .header-dark-btn {
+    background-color: $primary;
+  }
+  .light2 {
+    display: inline-block;
+  }
+  .dark2 {
+    display: none;
+  }
+}

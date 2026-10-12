@@ -1,27 +1,23 @@
-/// <reference types="vite/client" />
-
-import axios from 'axios'
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: process.env.VUE_APP_API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
-})
+});
 
 api.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem('accessToken')
+    const accessToken = localStorage.getItem("accessToken");
 
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
-    return config
+    return config;
   },
-  (error) => {
-    return Promise.reject(error)
-  },
-)
+  (error) => Promise.reject(error),
+);
 
-export default api
+export default api;

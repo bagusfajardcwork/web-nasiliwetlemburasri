@@ -1,40 +1,32 @@
-export interface AuthUser {
-  id: number
-  name: string
-  email: string
-  role: string | null
-}
-
 export interface AuthRole {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
-export interface AuthUserDetail {
-  id: number
-  name: string
-  email: string
-  isActive: boolean
-  roles: AuthRole[]
-  permissions: string[]
+export interface AuthUser {
+  id: number;
+  name: string;
+  email: string;
+  isActive: boolean;
+  roles: AuthRole[];
+  permissions: string[];
 }
 
 export interface LoginPayload {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface LoginResponse {
-  success: boolean
-  message: string
+  success: boolean;
+  message: string;
   data: {
-    user: AuthUser
-    accessToken: string
-  }
+    accessToken: string;
+  };
 }
 
 export interface MeResponse {
-  success: boolean
-  message: string
-  data: AuthUserDetail
+  success: boolean;
+  message: string;
+  data: AuthUser;
 }
