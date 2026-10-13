@@ -231,7 +231,8 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
       permission: "users.read",
     },
-  }, {
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     component: DashboardMain,
@@ -240,6 +241,7 @@ const routes: Array<RouteRecordRaw> = [
       permission: "users.read",
     },
   },
+  // Users
   {
     path: "/users",
     name: "Users",
@@ -260,11 +262,20 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/users/add-user",
-    name: "AddUserPage",
+    name: "Tambah Pengguna",
     component: AddUserPage,
     meta: {
       requiresAuth: true,
-      permission: "users.read",
+      permission: "users.create",
+    },
+  },
+  {
+    path: "/users/edit-user/:id",
+    name: "Ubah Pengguna",
+    component: AddUserPage,
+    meta: {
+      requiresAuth: true,
+      permission: "users.update",
     },
   },
   {

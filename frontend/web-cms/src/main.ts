@@ -6,7 +6,9 @@ import * as BootstrapVueNext from "bootstrap-vue-next";
 import VueApexCharts from "vue3-apexcharts";
 import { QuillEditor } from "@vueup/vue-quill";
 import { createPinia } from "pinia";
+import Toast from "vue-toastification";
 
+import "vue-toastification/dist/index.css";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -32,6 +34,17 @@ Object.entries(BootstrapVueNext).forEach(([name, component]) => {
   ) {
     app.component(name, component as never);
   }
+});
+// Toastify
+app.use(Toast, {
+  position: "top-right",
+  timeout: 4000,
+  maxToasts: 5,
+  newestOnTop: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  icon: true,
 });
 app.use(createPinia());
 app.use(createBootstrap());

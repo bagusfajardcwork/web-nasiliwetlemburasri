@@ -1,6 +1,6 @@
 <template>
   <div class="main-content-container overflow-hidden">
-    <PageTitle pageTitle="Users List" subTitle="Users" />
+    <PageTitle pageTitle="Daftar Pengguna" subTitle="Pengguna" />
 
     <UsersList />
   </div>

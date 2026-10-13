@@ -1,239 +1,480 @@
-<template>
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card bg-white border-0 rounded-3 mb-4">
-        <div class="card-body p-4">
-          <form>
-            <div class="row">
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">User IDe</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="Enter user id"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">User Name</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="Enter user name"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Email Address</label>
-                  <input
-                    type="email"
-                    class="form-control h-55"
-                    placeholder="Enter email address"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Location</label>
-                  <select
-                    class="form-select form-control h-55"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Select</option>
-                    <option value="1">New Zealand</option>
-                    <option value="2">Germany</option>
-                    <option value="3">United States</option>
-                    <option value="4">Switzerland</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Phone Number</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="+1 444 555 6699"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Projects</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="Enter Projects"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Add Some Info</label>
-                  <textarea
-                    rows="6"
-                    class="form-control"
-                    placeholder="Type here...."
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Facebook</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="https://www.facebook.com/"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">X</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="https://x.com/"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">Linkedin</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="https://www.linkedin.com/"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">GitHub</label>
-                  <input
-                    type="text"
-                    class="form-control h-55"
-                    placeholder="https://www.github.com/"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group mb-4">
-                  <label class="label text-secondary">
-                    Upload Product Images
-                  </label>
-                  <div
-                    class="form-control h-100 text-center position-relative p-4 p-lg-5"
-                  >
-                    <div class="product-upload">
-                      <label for="file-upload" class="file-upload mb-0">
-                        <i
-                          class="ri-folder-image-line bg-primary bg-opacity-10 p-2 rounded-1 text-primary"
-                        ></i>
-                        <span class="d-block text-body fs-14">
-                          Drag and drop an image or
-                          <span class="text-primary text-decoration-underline">
-                            Browse
-                          </span>
-                        </span>
-                      </label>
-                      <input id="file-upload" type="file" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="d-flex flex-wrap gap-3">
-                  <button
-                    class="btn btn-danger py-2 px-4 fw-medium fs-16 text-white"
-                  >
-                    Cancel
-                  </button>
-                  <button class="btn btn-primary py-2 px-4 fw-medium fs-16">
-                    <i class="ri-add-line text-white fw-medium"></i> Add User
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+<script setup lang="ts">
+import { computed, onMounted, reactive, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { Service } from "@/services";
+// import { useAuthStore } from "@/stores/auth.store";
+import { useToast } from "vue-toastification";
+import {
+  toastSuccess,
+  toastError,
+} from "@/utils/toast";
 
-    <div class="col-lg-4">
-      <div class="card bg-white border-0 rounded-3 mb-4">
-        <div class="card-body p-4">
-          <h3 class="mb-lg-4 mb-3">Privacy Policy</h3>
+interface Role {
+  id: number;
+  name: string;
+  description?: string | null;
+}
 
-          <div class="mb-4">
-            <div class="form-check mb-3">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-              />
-              <label class="form-check-label" for="flexCheckDefault">
-                Allow users to show your email
-              </label>
-            </div>
-            <div class="form-check mb-3">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked2"
-              />
-              <label class="form-check-label" for="flexCheckChecked2">
-                Allow users to show your experiences
-              </label>
-            </div>
-            <div class="form-check mb-0">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked3"
-              />
-              <label class="form-check-label" for="flexCheckChecked3">
-                Allow users to show your followers
-              </label>
-            </div>
-          </div>
+interface RolesResponse {
+  success: boolean;
+  message: string;
+  data: Role[];
+}
 
-          <label class="label text-secondary">Select Your Skills</label>
-          <select
-            class="form-select form-control h-55"
-            aria-label="Default select example"
-          >
-            <option selected>Select</option>
-            <option value="1">Data Analysis</option>
-            <option value="2">Project Management</option>
-            <option value="3">Teamwork</option>
-            <option value="4">Leadership</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+interface UserPayload {
+  name: string;
+  email: string;
+  password?: string;
+  isActive: boolean;
+  roleIds: number[];
+}
 
-<script lang="ts">
-import { defineComponent } from "vue";
+interface CreateUserPayload {
+  name: string;
+  email: string;
+  password: string;
+  isActive: boolean;
+  roleIds: number[];
+}
 
-export default defineComponent({
-  name: "AddUser",
+interface UserDetailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: number;
+    name: string;
+    email: string;
+    isActive: boolean;
+    roles: {
+      id: number;
+      name: string;
+    }[];
+  };
+}
+
+const router = useRouter();
+const route = useRoute();
+// const auth = useAuthStore();
+const toast = useToast();
+
+const loading = ref(false);
+const loadingRoles = ref(false);
+const errorMessage = ref("");
+
+const roles = ref<Role[]>([]);
+const selectedRoleIds = ref<number[]>([]);
+const isEditMode = computed(() => route.params.id !== undefined);
+const userId = computed(() => Number(route.params.id));
+
+const pageTitle = computed(() =>
+    isEditMode.value ? "Edit User" : "Tambah User",
+);
+
+const form = reactive({
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+  isActive: true,
+});
+
+const errors = reactive({
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+  roles: "",
+});
+
+const canSubmit = computed(() => {
+  const passwordValid =
+      isEditMode.value &&
+      !form.password &&
+      !form.passwordConfirmation
+          ? true
+          : form.password.length >= 8 &&
+          form.passwordConfirmation.length > 0 &&
+          form.password === form.passwordConfirmation;
+
+  return (
+      form.name.trim().length > 0 &&
+      form.email.trim().length > 0 &&
+      passwordValid &&
+      selectedRoleIds.value.length > 0 &&
+      !loading.value &&
+      !loadingRoles.value
+  );
+});
+
+async function loadRoles() {
+  loadingRoles.value = true;
+
+  try {
+    const response = await Service.get<RolesResponse>("/roles");
+
+    roles.value = response.data.data;
+  } catch (error: unknown) {
+    console.error("Gagal memuat role:", error);
+    errorMessage.value = "Gagal memuat daftar role.";
+    toastError(toast, errorMessage.value);
+  } finally {
+    loadingRoles.value = false;
+  }
+}
+
+async function loadUser() {
+  if (!isEditMode.value) return;
+
+  try {
+    const response = await Service.get<UserDetailResponse>(
+        `/users/${userId.value}`,
+    );
+
+    const user = response.data.data;
+
+    form.name = user.name;
+    form.email = user.email;
+    form.isActive = user.isActive;
+
+    // Pilih role yang sudah dimiliki user.
+    selectedRoleIds.value = user.roles.map((role) => role.id);
+  } catch (error) {
+    console.error("Gagal mengambil detail user:", error);
+    toastError(toast, "Gagal mengambil detail user.");
+    await router.replace("/users");
+  }
+}
+
+function validateForm(): boolean {
+  errors.name = "";
+  errors.email = "";
+  errors.password = "";
+  errors.passwordConfirmation = "";
+  errors.roles = "";
+
+  let valid = true;
+
+  if (!form.name.trim()) {
+    errors.name = "Nama wajib diisi.";
+    valid = false;
+  }
+
+  if (!form.email.trim()) {
+    errors.email = "Email wajib diisi.";
+    valid = false;
+  }
+
+  const passwordProvided =
+      form.password.length > 0 ||
+      form.passwordConfirmation.length > 0;
+
+  if (!isEditMode.value && !passwordProvided) {
+    errors.password = "Password wajib diisi.";
+    valid = false;
+  }
+
+  if (!isEditMode.value || passwordProvided) {
+    if (!form.password) {
+      errors.password = "Password wajib diisi.";
+      valid = false;
+    } else if (form.password.length < 8) {
+      errors.password = "Password minimal 8 karakter.";
+      valid = false;
+    }
+
+    if (!form.passwordConfirmation) {
+      errors.passwordConfirmation = "Konfirmasi password wajib diisi.";
+      valid = false;
+    } else if (form.password !== form.passwordConfirmation) {
+      errors.passwordConfirmation = "Konfirmasi password tidak sama.";
+      valid = false;
+    }
+  }
+
+  if (selectedRoleIds.value.length === 0) {
+    errors.roles = "Pilih minimal satu role.";
+    valid = false;
+  }
+
+  return valid;
+}
+
+async function handleSubmit() {
+  errorMessage.value = "";
+
+  if (!validateForm()) return;
+
+  const payload: UserPayload = {
+    name: form.name.trim(),
+    email: form.email.trim(),
+    isActive: form.isActive,
+    roleIds: selectedRoleIds.value,
+  };
+
+  if (form.password) {
+    payload.password = form.password;
+  }
+
+  loading.value = true;
+
+  try {
+    if (isEditMode.value) {
+      await Service.put(`/users/${userId.value}`, payload);
+      toastSuccess(toast, "User berhasil diperbarui.");
+    } else {
+      await Service.post("/users", payload);
+      toastSuccess(toast, "User berhasil ditambahkan.");
+    }
+    await router.push("/users");
+  } catch (error: unknown) {
+    console.error("Gagal menambahkan user:", error);
+
+    errorMessage.value = "Gagal menambahkan user.";
+    toastError(toast, errorMessage.value);
+  } finally {
+    loading.value = false;
+  }
+}
+
+function goBack() {
+  router.push("/users");
+}
+
+onMounted(async () => {
+  await Promise.all([
+    loadRoles(),
+    loadUser(),
+  ]);
 });
 </script>
 
-<style lang="scss" scoped>
-.btn-danger {
-  --bs-btn-bg: #fd5812;
-  --bs-btn-border-color: #fd5812;
-  --bs-btn-hover-bg: #fd7136;
-  --bs-btn-hover-border-color: #fd692a;
-}
-</style>
+<template>
+  <div class="card border-0 rounded-3 bg-white">
+    <!-- Header -->
+    <div
+        class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-3 p-4"
+    >
+      <div>
+        <h3 class="mb-1 fs-18 fw-semibold">{{ pageTitle }}</h3>
+<!--        <p class="text-secondary mb-0">-->
+<!--          Tambahkan pengguna baru ke dalam CMS.-->
+<!--        </p>-->
+      </div>
+
+      <BButton variant="dark" @click="goBack">
+        <i class="ri-arrow-left-line me-1" />
+        Kembali
+      </BButton>
+    </div>
+
+    <!-- Form -->
+    <div class="card-body p-4">
+      <div v-if="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <form @submit.prevent="handleSubmit" novalidate>
+        <div class="row g-4">
+          <!-- Name -->
+          <div class="col-md-6">
+            <label for="name" class="form-label">
+              Nama lengkap <span class="text-danger">*</span>
+            </label>
+
+            <BFormInput
+                id="name"
+                v-model="form.name"
+                placeholder="Masukkan nama lengkap"
+                :disabled="loading"
+                :state="errors.name ? false : null"
+            />
+
+            <div v-if="errors.name" class="text-danger small mt-1">
+              {{ errors.name }}
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6">
+            <label for="email" class="form-label">
+              Email <span class="text-danger">*</span>
+            </label>
+
+            <BFormInput
+                id="email"
+                v-model="form.email"
+                type="email"
+                placeholder="nama@example.com"
+                autocomplete="email"
+                :disabled="loading"
+                :state="errors.email ? false : null"
+            />
+
+            <div v-if="errors.email" class="text-danger small mt-1">
+              {{ errors.email }}
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="col-md-6">
+            <label for="password" class="form-label">
+              Password
+              <span v-if="!isEditMode" class="text-danger">*</span>
+            </label>
+
+            <BFormInput
+                id="password"
+                v-model="form.password"
+                type="password"
+                :placeholder="isEditMode ? 'Kosongkan jika tidak ingin mengubah password' : 'Masukkan password'"
+                autocomplete="new-password"
+                :disabled="loading"
+                :state="errors.password ? false : null"
+            />
+
+            <div v-if="errors.password" class="text-danger small mt-1">
+              {{ errors.password }}
+            </div>
+          </div>
+
+          <!-- Password Confirmation -->
+          <div class="col-md-6">
+            <label for="passwordConfirmation" class="form-label">
+              Konfirmasi password
+              <span v-if="!isEditMode" class="text-danger">*</span>
+            </label>
+
+            <BFormInput
+                id="passwordConfirmation"
+                v-model="form.passwordConfirmation"
+                type="password"
+                :placeholder="isEditMode ? 'Kosongkan jika tidak ingin mengubah password' : 'Ulangi password'"
+                autocomplete="new-password"
+                :disabled="loading"
+                :state="errors.passwordConfirmation ? false : null"
+            />
+
+            <div
+                v-if="errors.passwordConfirmation"
+                class="text-danger small mt-1"
+            >
+              {{ errors.passwordConfirmation }}
+            </div>
+          </div>
+
+          <!-- Roles -->
+          <div class="col-12">
+            <label class="form-label">
+              Role pengguna <span class="text-danger">*</span>
+            </label>
+
+            <div v-if="loadingRoles" class="text-secondary small">
+              Memuat daftar role...
+            </div>
+
+            <div
+                v-else-if="roles.length === 0"
+                class="alert alert-warning mb-0"
+            >
+              Belum ada role yang tersedia.
+            </div>
+
+            <div v-else class="border rounded-3 p-3">
+              <div
+                  v-for="role in roles"
+                  :key="role.id"
+                  class="form-check mb-2"
+              >
+                <input
+                    :id="`role-${role.id}`"
+                    v-model="selectedRoleIds"
+                    class="form-check-input"
+                    type="checkbox"
+                    :value="role.id"
+                    :disabled="loading"
+                />
+
+                <label
+                    class="form-check-label fw-medium"
+                    :for="`role-${role.id}`"
+                >
+                  {{ role.name }}
+
+                  <span
+                      v-if="role.description"
+                      class="d-block text-secondary small fw-normal"
+                  >
+                    {{ role.description }}
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div v-if="errors.roles" class="text-danger small mt-1">
+              {{ errors.roles }}
+            </div>
+
+            <div class="form-text">
+              Pilih satu atau lebih role untuk pengguna ini.
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="col-12">
+            <div class="form-check form-switch">
+              <input
+                  id="isActive"
+                  v-model="form.isActive"
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  :disabled="loading"
+              />
+
+              <label class="form-check-label fw-medium" for="isActive">
+                Pengguna aktif
+              </label>
+
+              <div class="form-text">
+                Pengguna yang nonaktif tidak dapat menggunakan akun jika
+                backend menerapkan pemeriksaan status aktif.
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="col-12">
+            <hr />
+
+            <div class="d-flex flex-wrap justify-content-end gap-2">
+              <BButton
+                  type="button"
+                  variant="outline-secondary"
+                  :disabled="loading"
+                  @click="goBack"
+              >
+                Batal
+              </BButton>
+
+              <BButton
+                  type="submit"
+                  variant="primary"
+                  :disabled="!canSubmit || loadingRoles"
+              >
+                <span
+                    v-if="loading"
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                />
+
+                <i v-else class="ri-save-line me-1" />
+
+                {{ loading ? "Menyimpan..." : "Simpan Pengguna" }}
+              </BButton>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>

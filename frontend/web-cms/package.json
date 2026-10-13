@@ -33,6 +33,7 @@
     "vue": "^3.5.43",
     "vue-echarts": "^7.0.3",
     "vue-router": "^4.6.4",
+    "vue-toastification": "^2.0.0-rc.5",
     "vue3-apexcharts": "^1.11.1"
   },
   "devDependencies": {

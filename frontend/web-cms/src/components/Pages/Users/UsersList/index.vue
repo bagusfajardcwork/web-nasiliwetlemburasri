@@ -4,7 +4,17 @@ import { useRouter } from "vue-router";
 import { Service } from "@/services";
 import { useAuthStore } from "@/stores/auth.store";
 import BasePagination from "@/components/Common/BasePagination.vue";
+import { useToast } from "vue-toastification";
+import { formatDate } from "@/utils/formatDate";
+import {
+  toastSuccess,
+  toastError,
+} from "@/utils/toast";
+import ModalHapus from "@/components/Common/ModalHapus.vue";
 
+const toast = useToast();
+const showDeleteModal = ref(false);
+const selectedUser = ref<User | null>(null);
 interface UserRole {
   id: number;
   name: string;
@@ -75,8 +85,9 @@ async function loadUsers() {
     users.value = response.data.data;
     pagination.value = response.data.pagination;
   } catch (error: unknown) {
-    console.error("Gagal memuat user:", error);
-    errorMessage.value = "Gagal memuat data user.";
+    console.error("Gagal memuat pengguna:", error);
+    errorMessage.value = "Gagal memuat data pengguna.";
+    toast.error(errorMessage.value);
   } finally {
     loading.value = false;
   }
@@ -95,14 +106,6 @@ function changePage(page: number) {
   loadUsers();
 }
 
-function formatDate(value: string) {
-  if (!value) return "-";
-
-  return new Intl.DateTimeFormat("id-ID", {
-    dateStyle: "medium",
-  }).format(new Date(value));
-}
-
 function goToCreate() {
   router.push("/users/add-user");
 }
@@ -111,15 +114,12 @@ function goToEdit(user: User) {
   router.push(`/users/edit-user/${user.id}`);
 }
 
-async function deleteUser(user: User) {
-  const confirmed = window.confirm(
-      `Apakah kamu yakin ingin menghapus user "${user.name}"?`,
-  );
+async function deleteUser() {
+  const user = selectedUser.value;
 
-  if (!confirmed) return;
+  if (!user) return;
 
   deletingId.value = user.id;
-  errorMessage.value = "";
 
   try {
     await Service.delete(`/users/${user.id}`);
@@ -129,12 +129,21 @@ async function deleteUser(user: User) {
     }
 
     await loadUsers();
+
+    toastSuccess(toast, "Pengguna berhasil dihapus.");
+    showDeleteModal.value = false;
+    selectedUser.value = null;
   } catch (error: unknown) {
     console.error("Gagal menghapus user:", error);
-    errorMessage.value = "Gagal menghapus user.";
+    toastError(toast, "Gagal menghapus user.");
   } finally {
     deletingId.value = null;
   }
+}
+
+function openDeleteModal(user: User) {
+  selectedUser.value = user;
+  showDeleteModal.value = true;
 }
 
 let searchTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -155,59 +164,41 @@ onMounted(() => {
 
 <template>
   <div class="card border-0 rounded-3 bg-white">
-    <div
-        class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-3 p-4"
-    >
+    <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-3 p-4">
       <div>
-        <h3 class="mb-1 fs-18 fw-semibold">Manajemen User</h3>
+        <h3 class="mb-1 fs-18 fw-semibold">Manajemen Pengguna</h3>
         <p class="text-secondary mb-0">
           Kelola pengguna CMS dan hak aksesnya.
         </p>
       </div>
 
-      <button
+      <BButton
           v-if="auth.hasPermission('users.create')"
-          type="button"
-          class="btn btn-primary d-inline-flex align-items-center gap-2"
-          @click="goToCreate"
+          variant="primary" @click="goToCreate"
       >
-        <i class="material-symbols-outlined fs-20">add</i>
-        Tambah User
-      </button>
+        <i class="ri-add-fill" /> Tambah
+      </BButton>
     </div>
 
     <div class="card-body p-4">
       <!-- Search -->
       <div class="row mb-4">
         <div class="col-md-6 col-lg-4">
-          <label for="user-search" class="form-label">
-            Cari pengguna
-          </label>
-
-          <div class="input-group">
-            <span class="input-group-text bg-transparent">
-              <i class="material-symbols-outlined fs-20">search</i>
-            </span>
-
-            <input
-                id="user-search"
-                v-model="searchTerm"
-                type="search"
-                class="form-control"
-                placeholder="Cari nama atau email..."
-            />
-          </div>
+          <b-input-group size="sm" class="mb-2 mr-sm-2 mb-sm-0">
+            <template #prepend>
+              <b-input-group-text>
+                <i class="material-symbols-outlined fs-20">search</i>
+              </b-input-group-text>
+            </template>
+            <b-form-input id="inline-form-input-username" v-model="searchTerm" placeholder="Cari nama atau email" />
+          </b-input-group>
         </div>
       </div>
 
       <!-- Error -->
       <div v-if="errorMessage" class="alert alert-danger" role="alert">
         {{ errorMessage }}
-        <button
-            type="button"
-            class="btn btn-sm btn-outline-danger ms-2"
-            @click="loadUsers"
-        >
+        <button type="button" class="btn btn-sm btn-outline-danger ms-2" @click="loadUsers">
           Coba lagi
         </button>
       </div>
@@ -225,11 +216,7 @@ onMounted(() => {
         <BTable
             :items="users"
             :fields="fields"
-            responsive
-            hover
-            outlined
-            striped
-            show-empty
+            responsive hover outlined striped show-empty
             empty-text="Belum ada data pengguna"
             class="align-middle mb-0"
         >
@@ -255,13 +242,8 @@ onMounted(() => {
           </template>
 
           <template #cell(isActive)="{ item }">
-            <span
-                class="badge rounded-pill"
-                :class="
-                item.isActive
-                  ? 'bg-success bg-opacity-10 text-success'
-                  : 'bg-secondary bg-opacity-10 text-secondary'
-              "
+            <span class="badge rounded-pill"
+                :class="item.isActive ? 'bg-success text-white' : 'bg-danger text-white'"
             >
               {{ item.isActive ? "Aktif" : "Nonaktif" }}
             </span>
@@ -272,24 +254,24 @@ onMounted(() => {
           </template>
 
           <template #cell(actions)="{ item }">
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex justify-content-center align-items-center gap-2">
 
-              <b-button
+              <BButton
                   v-if="auth.hasPermission('users.update')"
-                  variant="outline-primary" size="md" class="me-2" @click="goToEdit(item)"
+                  variant="outline-primary" @click="goToEdit(item)"
               >
                 <i class="ri-ball-pen-fill" />
-              </b-button>
+              </BButton>
 
-              <b-button
+              <BButton
                   v-if="auth.hasPermission('users.delete')"
                   variant="outline-danger"
-                  size="md"
+                  size="sm"
                   :disabled="deletingId === item.id"
-                  @click="deleteUser(item)"
+                  @click="openDeleteModal(item)"
               >
-                <i :class="deletingId === item.id ? 'ri-loader-4-line' : 'ri-delete-bin-line'"/>
-              </b-button>
+                <i class="ri-delete-bin-line" />
+              </BButton>
 
               <span v-if="!auth.hasPermission('users.update') && !auth.hasPermission('users.delete')" class="text-secondary">
                 -
@@ -311,5 +293,14 @@ onMounted(() => {
       />
 
     </div>
+
+    <ModalHapus
+        v-model:show="showDeleteModal"
+        title="Hapus User"
+        message="Apakah Anda yakin ingin menghapus pengguna berikut?"
+        :item-name="selectedUser?.name ?? ''"
+        :loading="deletingId !== null"
+        @confirm="deleteUser"
+    />
   </div>
 </template>
