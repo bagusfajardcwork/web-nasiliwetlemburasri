@@ -20,11 +20,21 @@ Route::prefix('v1/auth')->group(function () {
 Route::prefix('v1')
     ->middleware('auth:sanctum')
     ->group(function () {
-        Route::get('/users', [UserController::class, 'index']);
-        Route::post('/users', [UserController::class, 'store']);
-        Route::put('/users/{id}', [UserController::class, 'update']);
-        Route::delete('/users/{id}', [UserController::class, 'destroy']);
+        Route::get('/users', [UserController::class, 'index'])
+            ->middleware('permission:users.read');
+
+        Route::post('/users', [UserController::class, 'store'])
+            ->middleware('permission:users.create');
+
+        Route::put('/users/{id}', [UserController::class, 'update'])
+            ->middleware('permission:users.update');
+
+        Route::delete('/users/{id}', [UserController::class, 'destroy'])
+            ->middleware('permission:users.delete');
     });
+
+
+    
 
 // Route bawaan Laravel, sementara tetap dipertahankan.
 // Route::get('/user', function (Request $request) {
