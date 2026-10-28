@@ -1,6 +1,8 @@
+
 import { defineStore } from "pinia";
 import { Service } from "@/services";
 import type {
+  ApiAuthUser,
   AuthUser,
   LoginPayload,
   LoginResponse,
@@ -13,6 +15,19 @@ interface AuthState {
   loading: boolean;
 }
 
+function mapApiUser(apiUser: ApiAuthUser): AuthUser {
+  return {
+    id: apiUser.id,
+    name: apiUser.name,
+    email: apiUser.email,
+    isActive: apiUser.is_active,
+    roles: apiUser.roles,
+    permissions: apiUser.permissions.map(
+      (permission) => permission.name,
+    ),
+  };
+}
+
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     accessToken: localStorage.getItem("accessToken"),
@@ -22,9 +37,7 @@ export const useAuthStore = defineStore("auth", {
 
   getters: {
     isAuthenticated: (state) => !!state.accessToken,
-
     permissions: (state) => state.user?.permissions ?? [],
-
     roles: (state) => state.user?.roles ?? [],
   },
 
@@ -38,15 +51,20 @@ export const useAuthStore = defineStore("auth", {
           payload,
         );
 
-        const token = response.data.data.accessToken;
+        const token = response.data.accessToken;
 
         this.accessToken = token;
-
         localStorage.setItem("accessToken", token);
 
+        // Ambil profil terbaru dari Laravel.
         await this.fetchMe();
 
         return response.data;
+      } catch (error) {
+        this.accessToken = null;
+        this.user = null;
+        localStorage.removeItem("accessToken");
+        throw error;
       } finally {
         this.loading = false;
       }
@@ -55,16 +73,22 @@ export const useAuthStore = defineStore("auth", {
     async fetchMe() {
       const response = await Service.get<MeResponse>("/auth/me");
 
-      this.user = response.data.data;
+      this.user = mapApiUser(response.data.user);
 
       return this.user;
     },
 
-    logout() {
-      this.accessToken = null;
-      this.user = null;
-
-      localStorage.removeItem("accessToken");
+    async logout() {
+      try {
+        if (this.accessToken) {
+          await Service.post("/auth/logout");
+        }
+      } finally {
+        // Tetap bersihkan sesi lokal jika request logout gagal.
+        this.accessToken = null;
+        this.user = null;
+        localStorage.removeItem("accessToken");
+      }
     },
 
     hasPermission(permission: string) {
@@ -83,11 +107,12 @@ export const useAuthStore = defineStore("auth", {
       try {
         await this.fetchMe();
         return true;
-      } catch (error) {
-        this.logout();
+      } catch {
+        this.accessToken = null;
+        this.user = null;
+        localStorage.removeItem("accessToken");
         return false;
       }
     },
-
   },
 });

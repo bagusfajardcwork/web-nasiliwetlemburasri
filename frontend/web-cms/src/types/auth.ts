@@ -1,3 +1,4 @@
+
 export interface AuthRole {
   id: number;
   name: string;
@@ -12,21 +13,31 @@ export interface AuthUser {
   permissions: string[];
 }
 
+// Format user yang dikembalikan API Laravel.
+export interface ApiAuthUser {
+  id: number;
+  name: string;
+  email: string;
+  is_active: boolean;
+  roles: AuthRole[];
+  permissions: {
+    id: number;
+    name: string;
+  }[];
+}
+
 export interface LoginPayload {
   email: string;
   password: string;
 }
 
 export interface LoginResponse {
-  success: boolean;
   message: string;
-  data: {
-    accessToken: string;
-  };
+  accessToken: string;
+  token_type: string;
+  user: ApiAuthUser;
 }
 
 export interface MeResponse {
-  success: boolean;
-  message: string;
-  data: AuthUser;
+  user: ApiAuthUser;
 }

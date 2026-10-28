@@ -147,8 +147,13 @@ async function handleLogin() {
     await router.push("/dashboard");
   } catch (error: unknown) {
     console.error("Login error:", error);
+    console.log(error.status);
+    if (error.status === 403) {
+      errorMessage.value = "User tidak aktif. Hubungi admin!";
+    } else if (error.status === 401) {
+      errorMessage.value = "Username (email) atau password salah!";
+    }
 
-    errorMessage.value = "Email atau password salah.";
   }
 }
 </script>

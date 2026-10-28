@@ -16,8 +16,8 @@ http:
         "name": "Staff Test",
         "email": "staff.test@nasiliwetlemburasri.com",
         "password": "Password123!",
-        "isActive": true,
-        "roleIds": [3]
+        "is_active": true,
+        "role_ids": [3]
       }
 
 settings:

@@ -5,7 +5,7 @@ info:
 
 http:
   method: PUT
-  url: "{{base_url}}/users/3"
+  url: "{{base_url}}/users/18"
   headers:
     - name: Authorization
       value: Bearer {{auth_token}}
@@ -13,11 +13,11 @@ http:
     type: json
     data: |-
       {
-        "name": "Staff Updated",
+        "name": "Staff Updated XXXXX",
         "email": "staff.updated@nasiliwetlemburasri.com",
         "password": "NewPassword123!", // optional
         "isActive": true,
-        "roleIds": [3]
+        "role_ids": [3]
       }
 
 settings:

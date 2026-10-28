@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{base_url}}/users?page=1&perPage=1&search=staff&isActive=true&role=staff"
+  url: "{{base_url}}/users?page=1&perPage=1&search=admin&is_active=true&role=admin"
   headers:
     - name: Authorization
       value: Bearer {{auth_token}}
@@ -17,13 +17,13 @@ http:
       value: "1"
       type: query
     - name: search
-      value: staff
+      value: admin
       type: query
-    - name: isActive
+    - name: is_active
       value: "true"
       type: query
     - name: role
-      value: staff
+      value: admin
       type: query
 
 settings:

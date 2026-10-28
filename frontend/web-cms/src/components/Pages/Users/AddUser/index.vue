@@ -26,7 +26,7 @@ interface UserPayload {
   email: string;
   password?: string;
   isActive: boolean;
-  roleIds: number[];
+  role_ids: number[];
 }
 
 interface CreateUserPayload {
@@ -34,7 +34,7 @@ interface CreateUserPayload {
   email: string;
   password: string;
   isActive: boolean;
-  roleIds: number[];
+  role_ids: number[];
 }
 
 interface UserDetailResponse {
@@ -62,7 +62,7 @@ const loadingRoles = ref(false);
 const errorMessage = ref("");
 
 const roles = ref<Role[]>([]);
-const selectedRoleIds = ref<number[]>([]);
+const selectedRole_ids = ref<number[]>([]);
 const isEditMode = computed(() => route.params.id !== undefined);
 const userId = computed(() => Number(route.params.id));
 
@@ -100,7 +100,7 @@ const canSubmit = computed(() => {
       form.name.trim().length > 0 &&
       form.email.trim().length > 0 &&
       passwordValid &&
-      selectedRoleIds.value.length > 0 &&
+      selectedRole_ids.value.length > 0 &&
       !loading.value &&
       !loadingRoles.value
   );
@@ -137,7 +137,7 @@ async function loadUser() {
     form.isActive = user.isActive;
 
     // Pilih role yang sudah dimiliki user.
-    selectedRoleIds.value = user.roles.map((role) => role.id);
+    selectedRole_ids.value = user.roles.map((role) => role.id);
   } catch (error) {
     console.error("Gagal mengambil detail user:", error);
     toastError(toast, "Gagal mengambil detail user.");
@@ -191,7 +191,7 @@ function validateForm(): boolean {
     }
   }
 
-  if (selectedRoleIds.value.length === 0) {
+  if (selectedRole_ids.value.length === 0) {
     errors.roles = "Pilih minimal satu role.";
     valid = false;
   }
@@ -208,7 +208,7 @@ async function handleSubmit() {
     name: form.name.trim(),
     email: form.email.trim(),
     isActive: form.isActive,
-    roleIds: selectedRoleIds.value,
+    role_ids: selectedRole_ids.value,
   };
 
   if (form.password) {
@@ -387,7 +387,7 @@ onMounted(async () => {
               >
                 <input
                     :id="`role-${role.id}`"
-                    v-model="selectedRoleIds"
+                    v-model="selectedRole_ids"
                     class="form-check-input"
                     type="checkbox"
                     :value="role.id"

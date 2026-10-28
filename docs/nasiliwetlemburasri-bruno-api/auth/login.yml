@@ -19,14 +19,22 @@ runtime:
   scripts:
     - type: after-response
       code: |-
-        // Extract token dari response
-        const token = res.body.data.accessToken
+        // // Extract token dari response
+        // const token = res.body.data.accessToken
 
-        // Save ke environment
-        bru.setEnvVar('auth_token', token)
-        // bru.setGlobalEnvVar("auth_token", token, { persist: true })
+        // // Save ke environment
+        // bru.setEnvVar('auth_token', token)
+        // // bru.setGlobalEnvVar("auth_token", token, { persist: true })
 
-        // console.log('Token di save ke environment auth_token:', token)
+        // // console.log('Token di save ke environment auth_token:', token)
+
+
+        if (res.status === 200 && res.body?.accessToken) {
+          const token = res.body.accessToken
+          bru.setEnvVar('auth_token', token)
+        } else {
+          console.log('Login gagal:', res.status, res.body)
+        }
 
 settings:
   encodeUrl: true
